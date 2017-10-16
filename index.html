@@ -151,6 +151,265 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-file-upload-basic" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/16/file-upload-basic/">file-upload-basic</a>
+    </h1>
+  
+
+        
+        <a href="/2017/10/16/file-upload-basic/" class="archive-article-date">
+  	<time datetime="2017-10-16T06:47:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a><strong>文件上传</strong></h1><p>##0x01.文件检测方法</p>
+<p>###1.客户端(javascript检测）  </p>
+<p>###2.服务器端检测  </p>
+<ul>
+<li>MIME类型检测  </li>
+<li>文件后缀黑名单与白名单验证  </li>
+<li>目录验证</li>
+<li><p>文件内容检测  </p>
+<ul>
+<li>二进制头(文件幻数检测)<pre><code>JFIF     FF D8 FF E0 00 10 4A 46 49 46
+GIF89a47 49 46 38 39 61  
+PNG      89 50 4E 47
+</code></pre></li>
+<li><p>文件相关信息检测<br> 通常用的getimagesize()函数，只需要在幻数基础上加一些文件信息就行了，如下</p>
+<pre><code>GIF89a
+(...some binary data for image...)
+&lt;?php phpinfo(); ?&gt;
+(... skipping the rest of binary data ...)
+</code></pre></li>
+<li>文件加载检测</li>
+</ul>
+</li>
+</ul>
+<p>##0x02.攻击以及绕过方法</p>
+<p>###1.burp绕过前端JavaScript检测</p>
+<p>###2.burp修改http报头content-type类型</p>
+<p>###3.黑名单绕过以及白名单绕过</p>
+<ul>
+<li>文件名大小写  </li>
+<li><p>名单列表绕过</p>
+<blockquote>
+<p><img src="http://oxwj17r3u.bkt.clouddn.com/blacklist.jpg" alt="blacklist"><br><small>黑名单里没有asa或cer之类</small></p>
+</blockquote>
+</li>
+<li><p>特殊文件名绕过</p>
+<blockquote>
+<p>windows中test.asp.或test.asp_是不允许的，会自动去除点和空格等,linux/unix无这种特性。</p>
+</blockquote>
+</li>
+</ul>
+<ul>
+<li>0x00截断绕过</li>
+<li><p>.htaaccess文件攻击</p>
+<blockquote>
+<p>在PHP manual 中提到了下面一段话</p>
+<pre><code>move_uploaded_file section, there is a warning which states
+‘If the destination file already exists, it will be overwritten.’
+</code></pre><p>如果PHP 安全没配置好<br>就可以通过move_uploaded_file 函数把自己写的.htaccess 文件覆盖掉服务器上的<br>这样就能任意定义解析名单了</p>
+<pre><code>&lt;FilesMatch &quot;custom string&quot;&gt;
+SetHandler application/x-httpd-php
+&lt;/FilesMatch&gt;
+</code></pre></blockquote>
+</li>
+<li><p>解析漏洞</p>
+<ul>
+<li><p>Apache解析漏洞</p>
+<ul>
+<li>Apache解析文件名顺序—-从右到左  <ul>
+<li>test.php.abc,解析文件名时从右到左，因.abc不是Apache能识别的文件后缀，所以会将其识别为php文件<br>//* test.jpg/emm.php也会识别为php文件<blockquote>
+<p>测试- 测试了下面这些集成环境，都以它们的最新版本来测试，应该能覆盖所有低版本<br>WampServer2.0 All Version (WampServer2.0i / Apache 2.2.11)&emsp;&emsp;&emsp;&emsp;[Success]<br>WampServer2.1 All Version (WampServer2.1e-x32 / Apache 2.2.17)&emsp;&ensp; [Success]<br>Wamp5 All Version (Wamp5_1.7.4 / Apache 2.2.6) &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;[Success]<br>AppServ 2.4 All Version (AppServ - 2.4.9 / Apache 2.0.59) &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[Success]<br>AppServ 2.5 All Version (AppServ - 2.5.10 / Apache 2.2.8) &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[Success]<br>AppServ 2.6 All Version (AppServ - 2.6.0 / Apache 2.2.8)&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[Success]</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>IIS解析漏洞</p>
+<ul>
+<li>test.asp/abc</li>
+<li>test.asp;abc</li>
+<li>test.asp/abc.php<blockquote>
+<p>描述- IIS6.0 在解析asp 格式的时候有两个解析漏洞，一个是如果目录名包含”.asp”字符串，<br>那么这个目录下所有的文件都会按照asp 去解析，另一个是只要文件名中含有”.asp;”<br>会优先按asp 来解析<br>IIS7.0/7.5 是对php 解析时有一个类似于Nginx 的解析漏洞，对任意文件名只要在URL<br>后面追加上字符串”/任意文件名.php”就会按照php 的方式去解析(IIS6.0 没测试)<br>测试- 测试了下面这些集成环境，都以它们的最新版本来测试，应该能覆盖所有低版本<br>IIS6.0 (Win2003 SP2 + IIS6.0) [Success]<br>IIS7.0 (Win2008 R1 + IIS7.0) [Success]<br>IIS7.5 (Win2008 R2 + IIS7.5) [Success]</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li>Nginx解析漏洞<ul>
+<li>test.jpg/abc.php</li>
+<li>test.jpg%00.php</li>
+<li>test.jpg \abc.php<a href="CVE-2013-4547.md">^1</a><blockquote>
+<p>测试- 测试了下面这些环境<br>nginx 0.5.<em> [Success]<br>nginx 0.6.</em> [Success]<br>nginx 0.7 &lt;= 0.7.65 [Success]<br>nginx 0.8 &lt;= 0.8.37 [Success]</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li>漏洞原理<blockquote>
+<p>从漏洞原理来说总归有4 类web 应用程序解析漏洞</p>
+<ul>
+<li>Apache 的扩展名顺序解析漏洞<br>这个是Apache 自身的漏洞</li>
+<li>IIS 的asp 解析漏洞<br>这个是IIS 自身的漏洞</li>
+<li>Nginx 的%00 解析漏洞<br>这个是Nginx 自身的漏洞</li>
+<li>php-cgi 的默认配置漏洞<br>这类漏洞主要出现在IIS 和Nginx 这类以CGI 形式调用php 的web 应用程序<br>而Apache 通常是以module 的形式去调用php，所以很少出现这个漏洞  <pre><code>Bug #50852 FastCGI Responder&apos;s accept_path_info behavior needs to be optional
+地址: https://bugs.php.net/bug.php?id=50852&amp;edit=1
+</code></pre>这个漏洞由cgi.fix_pathinfo 的值造成的(这更应该是一个特性)<br><img src="http://oxwj17r3u.bkt.clouddn.com/cgi.fix_pathinfo.jpg" alt="cgi.fix_pathinfo"><br>默认值为1，也就是默认开启的</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<p>###4.攻击思路与绕过图<br><img src="http://oxwj17r3u.bkt.clouddn.com/how_to_attack.jpg" alt="to_attack"></p>
+<p>###5.防御思路</p>
+<ol>
+<li>轻量级检测必然能绕过</li>
+<li>检测的重点放在文件内容检测,可以用检测脚本语言特征码的机制</li>
+<li>路径/扩展名检测一定要用白名单,并且注意路径的0x00 截断攻击(把php 更新至最新版本即可，已经修补了这个漏洞了)</li>
+<li>不能有本地文件包含漏洞</li>
+<li>随时注意更新web 应用软件,避免被解析漏洞攻击</li>
+</ol>
+<hr>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/10/16/file-upload-basic/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-CVE-2013-4547" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/16/CVE-2013-4547/">CVE-2013-4547</a>
+    </h1>
+  
+
+        
+        <a href="/2017/10/16/CVE-2013-4547/" class="archive-article-date">
+  	<time datetime="2017-10-16T06:46:00.845Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>CVE-2013-4547是一个还算新的漏洞，影响范围也比较大:  </p>
+<pre><code>0.8.41～1.4.3， 1.5 &lt;= 1.5.7
+</code></pre><p>顺便一提，截止本文写作时，Nginx的最新版本是1.13.4 。</p>
+<p>这一漏洞的原理是非法字符空格和截止符（\0）会导致Nginx解析URI时的有限状态机混乱，危害是允许攻击者通过一个非编码空格绕过后缀名限制。是什么意思呢？举个例子，假设服务器上存在文件：“file.aaa ”，注意文件名的最后一个字符是空格。则可以通过访问：</p>
+<pre><code>http://127.0.0.1/file.aaa \0.bbb
+</code></pre><p>让Nginx认为文件“file.aaa ”的后缀为“.bbb”。</p>
+<p>来测试下，这次测试在Nginx/1.0.15中进行。首先准备一张图片，命名为“test.html ”，注意，文件名含有空格。然后在浏览器中访问该文件，会得到一个404，因为浏览器自动将空格编码为%20，服务器中不存在文件“test.html%20”。<br><img src="http://oxwj17r3u.bkt.clouddn.com/CVE-2013-4547_1.jpg" alt="burp-1"><br>测试目标是要让Nginx认为该文件是图片文件并正确地在浏览器中显示出来。我们想要的是未经编码的空格和截止符（\0），怎么办呢？使用Burp Suite抓取浏览器发出的请求包，修改为我们想要的样子，原本的URL是：</p>
+<pre><code>http://192.168.56.101/test.htmlAAAphp 
+</code></pre><p>将第一个“A”改成“20”（空格符号的ASCII码），将第二个“A”改成“00”（截止符），将第三个“A”改成“2e”（“.”的ASCII码），如下图所示：<br><img src="http://oxwj17r3u.bkt.clouddn.com/CVE-2013-4547_2.jpg" alt="-2"><br>继续测试，准备文件“test.jpg ”，注意文件名的最后一个字符是空格，文件内容为：</p>
+<pre><code>&lt;?php phpinfo() ?&gt;
+</code></pre><p>用Burp Suite抓包并修改，原本的URL是：</p>
+<pre><code>http://192.168.56.101/test.jpg…php 
+</code></pre><p>将jpg后的第一个“.”改为20，第二个“.”改为00，如下图所示：<br><img src="http://oxwj17r3u.bkt.clouddn.com/CVE-2013-4547_3.jpg" alt="burp-3"></p>
+<hr>
+<p>CVE-2013-4547还可以用于绕过访问限制</p>
+<p>首先在网站根目录下新建一个目录，命名为protected，在目录protected中新建文件s.html，内容随意。然后在Nginx的配置文件中写上：</p>
+<pre><code>location /protected/ {
+        deny all;
+}
+</code></pre><p>以禁止该目录的访问。接着在网站根目录下新建一个目录，名为“test ”，目录名的最后一个字符是空格，该目录用于触发漏洞。最后来进行验证，直接访问，返回“403 Forbidden”。</p>
+<pre><code>http://127.0.0.1/test /../protected/s.html
+</code></pre><p>成功访问到文件s.html。注意上示URL中的空格，不要将空格编码。</p>
+<p>为成功利用漏洞，我们在测试中准备了名字以空格结尾的文件和目录，这是因为在linux中，文件名是可以以空格结尾的。若不准备这样的文件，漏洞可以成功触发，但结果却是404，找不到类似“test.jpg ”这样的文件。而在Windows中，文件名不能以空格结尾，所以Windows程序遇到文件名“test.jpg ”会自动去掉最后的空格，等同于访问“test.jpg”，基于这样的原因，这一漏洞在Windows中会很容易利用。</p>
+<hr>
+<p>More:<br>        <a href="http://www.lenky.info/archives/2016/04/2488" target="_blank" rel="external">http://www.lenky.info/archives/2016/04/2488</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/10/16/CVE-2013-4547/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-D0g3暑假考核write-up" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -171,7 +430,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>时间：17年暑假<br>地点：全国各地<br>为了在16级招到既热爱技术又真诚可靠的小伙伴，小组趁17年暑假这个空档，开展了一波持续40余天的考核+面试活动。<br>三个技术方向、三轮面试，任务中既有编程基础及漏洞复现，又有一些原创和非原创<a href="http://139.199.185.89" target="_blank" rel="external">CTF题目</a>，还有贴近实战的渗透测试环境。<br>在这里，我们将持续更新考核的writeup，懒癌发作，懒得自己写write up，所以放出一些较优解，供大家参考。没能成功通过这次面试进入小组的小伙伴也不要灰心，在技术道路上坚持前行，我们依旧等你。</p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>时间：17年暑假<br>地点：全国各地<br>为了在16级招到既热爱技术又真诚可靠的小伙伴，小组趁17年暑假这个空档，开展了一波持续40余天的考核+面试活动。<br>三个技术方向、三轮面试。任务中既有编程基础及漏洞复现，又有一些原创和非原创<a href="http://139.199.185.89" target="_blank" rel="external">CTF题目</a>，还有贴近实战的渗透测试环境。<br>在这里，我们将持续更新考核的writeup，懒癌发作，懒得自己写write up，所以放出一些较优解，供大家参考。没能成功通过这次面试进入小组的小伙伴也不要灰心，在技术道路上坚持前行，我们依旧等你。</p>
 <h3 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h3><h4 id="XXXXXXXX"><a href="#XXXXXXXX" class="headerlink" title="XXXXXXXX"></a>XXXXXXXX</h4><p>先输入<code>’”&lt;&gt;&amp;</code>测试过滤，结果发现页面显示异常，查看源码，找到漏洞点。<br>构造语句<br><code>&quot;&gt;&lt;script&gt;alert(1)&lt;/script&gt;&lt;&quot;</code><br>成功</p>
 <h4 id="XXXXXXXXXXX"><a href="#XXXXXXXXXXX" class="headerlink" title="XXXXXXXXXXX"></a>XXXXXXXXXXX</h4><p>第二题过滤了script 双写绕过<br><code>&quot;&gt;&lt;scrscriptipt&gt;alert(1)&lt;/scripscriptt&gt;&lt;&quot;</code></p>
 <h4 id="exec1"><a href="#exec1" class="headerlink" title="exec1"></a>exec1</h4><p>提示swp，是vim在不正常退出时保存的文件，默认是隐藏文件。所以我们输入.index.php.swp，下载到了swp文件，对其进行分析，放到linux中使用命令 vim -r .index.php.swp 恢复文件进行代码审计</p>

@@ -8,19 +8,19 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>D0g3暑假考核write_up | Laura_小狮子的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前言时间：17年暑假地点：全国各地为了在16级招到既热爱技术又真诚可靠的小伙伴，小组趁17年暑假这个空档，开展了一波持续40余天的考核+面试活动。三个技术方向、三轮面试，任务中既有编程基础及漏洞复现，又有一些原创和非原创CTF题目，还有贴近实战的渗透测试环境。在这里，我们将持续更新考核的writeup，懒癌发作，懒得自己写write up，所以放出一些较优解，供大家参考。没能成功通过这次面试进入小">
+  <meta name="description" content="前言时间：17年暑假地点：全国各地为了在16级招到既热爱技术又真诚可靠的小伙伴，小组趁17年暑假这个空档，开展了一波持续40余天的考核+面试活动。三个技术方向、三轮面试。任务中既有编程基础及漏洞复现，又有一些原创和非原创CTF题目，还有贴近实战的渗透测试环境。在这里，我们将持续更新考核的writeup，懒癌发作，懒得自己写write up，所以放出一些较优解，供大家参考。没能成功通过这次面试进入小">
 <meta property="og:type" content="article">
 <meta property="og:title" content="D0g3暑假考核write_up">
 <meta property="og:url" content="http://yoursite.com/2017/10/16/D0g3暑假考核write-up/index.html">
 <meta property="og:site_name" content="Laura_小狮子的博客">
-<meta property="og:description" content="前言时间：17年暑假地点：全国各地为了在16级招到既热爱技术又真诚可靠的小伙伴，小组趁17年暑假这个空档，开展了一波持续40余天的考核+面试活动。三个技术方向、三轮面试，任务中既有编程基础及漏洞复现，又有一些原创和非原创CTF题目，还有贴近实战的渗透测试环境。在这里，我们将持续更新考核的writeup，懒癌发作，懒得自己写write up，所以放出一些较优解，供大家参考。没能成功通过这次面试进入小">
+<meta property="og:description" content="前言时间：17年暑假地点：全国各地为了在16级招到既热爱技术又真诚可靠的小伙伴，小组趁17年暑假这个空档，开展了一波持续40余天的考核+面试活动。三个技术方向、三轮面试。任务中既有编程基础及漏洞复现，又有一些原创和非原创CTF题目，还有贴近实战的渗透测试环境。在这里，我们将持续更新考核的writeup，懒癌发作，懒得自己写write up，所以放出一些较优解，供大家参考。没能成功通过这次面试进入小">
 <meta property="og:image" content="http://imglf1.nosdn.127.net/img/R3A0c1BwZGtMS0ZYUHNEdzQ2Ym1GelkxOEJiY08vb0tXUDNJOUxaUzJjY0Nnd2YzaUFiN0pnPT0.jpg?imageView&thumbnail=1680x0&quality=96&stripmeta=0&type=jpg">
 <meta property="og:image" content="http://imglf1.nosdn.127.net/img/R3A0c1BwZGtMS0ZYUHNEdzQ2Ym1GN3lxRHNUZm1qUTFCdytYeGlweWYwT2hEUXpqeWdSNVdRPT0.png?imageView&thumbnail=500x0&quality=96&stripmeta=0&type=jpg">
 <meta property="og:image" content="http://imglf2.nosdn.127.net/img/R3A0c1BwZGtMS0ZYUHNEdzQ2Ym1GMFUvZ1JUOC9FQUh5ZitCZTgxcnpKeURTUFQ3Y0JIMVF3PT0.png?imageView&thumbnail=500x0&quality=96&stripmeta=0&type=jpg">
-<meta property="og:updated_time" content="2017-10-16T06:43:31.576Z">
+<meta property="og:updated_time" content="2017-10-16T06:49:58.102Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="D0g3暑假考核write_up">
-<meta name="twitter:description" content="前言时间：17年暑假地点：全国各地为了在16级招到既热爱技术又真诚可靠的小伙伴，小组趁17年暑假这个空档，开展了一波持续40余天的考核+面试活动。三个技术方向、三轮面试，任务中既有编程基础及漏洞复现，又有一些原创和非原创CTF题目，还有贴近实战的渗透测试环境。在这里，我们将持续更新考核的writeup，懒癌发作，懒得自己写write up，所以放出一些较优解，供大家参考。没能成功通过这次面试进入小">
+<meta name="twitter:description" content="前言时间：17年暑假地点：全国各地为了在16级招到既热爱技术又真诚可靠的小伙伴，小组趁17年暑假这个空档，开展了一波持续40余天的考核+面试活动。三个技术方向、三轮面试。任务中既有编程基础及漏洞复现，又有一些原创和非原创CTF题目，还有贴近实战的渗透测试环境。在这里，我们将持续更新考核的writeup，懒癌发作，懒得自己写write up，所以放出一些较优解，供大家参考。没能成功通过这次面试进入小">
 <meta name="twitter:image" content="http://imglf1.nosdn.127.net/img/R3A0c1BwZGtMS0ZYUHNEdzQ2Ym1GelkxOEJiY08vb0tXUDNJOUxaUzJjY0Nnd2YzaUFiN0pnPT0.jpg?imageView&thumbnail=1680x0&quality=96&stripmeta=0&type=jpg">
   
     <link rel="alternative" href="/atom.xml" title="Laura_小狮子的博客" type="application/atom+xml">
@@ -177,7 +177,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>时间：17年暑假<br>地点：全国各地<br>为了在16级招到既热爱技术又真诚可靠的小伙伴，小组趁17年暑假这个空档，开展了一波持续40余天的考核+面试活动。<br>三个技术方向、三轮面试，任务中既有编程基础及漏洞复现，又有一些原创和非原创<a href="http://139.199.185.89" target="_blank" rel="external">CTF题目</a>，还有贴近实战的渗透测试环境。<br>在这里，我们将持续更新考核的writeup，懒癌发作，懒得自己写write up，所以放出一些较优解，供大家参考。没能成功通过这次面试进入小组的小伙伴也不要灰心，在技术道路上坚持前行，我们依旧等你。</p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>时间：17年暑假<br>地点：全国各地<br>为了在16级招到既热爱技术又真诚可靠的小伙伴，小组趁17年暑假这个空档，开展了一波持续40余天的考核+面试活动。<br>三个技术方向、三轮面试。任务中既有编程基础及漏洞复现，又有一些原创和非原创<a href="http://139.199.185.89" target="_blank" rel="external">CTF题目</a>，还有贴近实战的渗透测试环境。<br>在这里，我们将持续更新考核的writeup，懒癌发作，懒得自己写write up，所以放出一些较优解，供大家参考。没能成功通过这次面试进入小组的小伙伴也不要灰心，在技术道路上坚持前行，我们依旧等你。</p>
 <h3 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h3><h4 id="XXXXXXXX"><a href="#XXXXXXXX" class="headerlink" title="XXXXXXXX"></a>XXXXXXXX</h4><p>先输入<code>’”&lt;&gt;&amp;</code>测试过滤，结果发现页面显示异常，查看源码，找到漏洞点。<br>构造语句<br><code>&quot;&gt;&lt;script&gt;alert(1)&lt;/script&gt;&lt;&quot;</code><br>成功</p>
 <h4 id="XXXXXXXXXXX"><a href="#XXXXXXXXXXX" class="headerlink" title="XXXXXXXXXXX"></a>XXXXXXXXXXX</h4><p>第二题过滤了script 双写绕过<br><code>&quot;&gt;&lt;scrscriptipt&gt;alert(1)&lt;/scripscriptt&gt;&lt;&quot;</code></p>
 <h4 id="exec1"><a href="#exec1" class="headerlink" title="exec1"></a>exec1</h4><p>提示swp，是vim在不正常退出时保存的文件，默认是隐藏文件。所以我们输入.index.php.swp，下载到了swp文件，对其进行分析，放到linux中使用命令 vim -r .index.php.swp 恢复文件进行代码审计</p>
@@ -307,6 +307,15 @@
 
   
 <nav id="article-nav">
+  
+    <a href="/2017/10/16/CVE-2013-4547/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          CVE-2013-4547
+        
+      </div>
+    </a>
   
   
     <a href="/2017/10/16/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
