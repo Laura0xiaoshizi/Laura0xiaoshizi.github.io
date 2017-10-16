@@ -76,7 +76,7 @@
 		<nav class="header-nav">
 			<div class="social">
 				
-					<a class="weibo" target="_blank" href="https://weibo.com/5334254449/profile?rightmod=1&wvr=6&mod=personinfo" title="weibo"><i class="icon-weibo"></i></a>
+					<a class="weibo" target="_blank" href="http://weibo.com/u/5334254449" title="weibo"><i class="icon-weibo"></i></a>
 		        
 					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/wang-rui-xin-93-25" title="zhihu"><i class="icon-zhihu"></i></a>
 		        
@@ -117,7 +117,7 @@
 			<nav class="header-nav">
 				<div class="social">
 					
-						<a class="weibo" target="_blank" href="https://weibo.com/5334254449/profile?rightmod=1&wvr=6&mod=personinfo" title="weibo"><i class="icon-weibo"></i></a>
+						<a class="weibo" target="_blank" href="http://weibo.com/u/5334254449" title="weibo"><i class="icon-weibo"></i></a>
 			        
 						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/wang-rui-xin-93-25" title="zhihu"><i class="icon-zhihu"></i></a>
 			        
@@ -150,6 +150,81 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-D0g3暑期考核write_up" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>时间：17年暑假<br>地点：全国各地<br>为了在16级招到既热爱技术又真诚可靠的小伙伴，小组趁17年暑假这个空档，开展了一波持续40余天的考核+面试活动。<br>三个技术方向、三轮面试，任务中既有编程基础及漏洞复现，又有一些原创和非原创<a href="http://139.199.185.89" target="_blank" rel="external">CTF题目</a>，还有贴近实战的渗透测试环境。<br>在这里，我们将持续更新考核的writeup，懒癌发作，懒得自己写write up，所以放出一些较优解，供大家参考。没能成功通过这次面试进入小组的小伙伴也不要灰心，在技术道路上坚持前行，我们依旧等你。</p>
+<h3 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h3><h4 id="XXXXXXXX"><a href="#XXXXXXXX" class="headerlink" title="XXXXXXXX"></a>XXXXXXXX</h4><p>先输入<code>’”&lt;&gt;&amp;</code>测试过滤，结果发现页面显示异常，查看源码，找到漏洞点。<br>构造语句<br><code>&quot;&gt;&lt;script&gt;alert(1)&lt;/script&gt;&lt;&quot;</code><br>成功</p>
+<h4 id="XXXXXXXXXXX"><a href="#XXXXXXXXXXX" class="headerlink" title="XXXXXXXXXXX"></a>XXXXXXXXXXX</h4><p>第二题过滤了script 双写绕过<br><code>&quot;&gt;&lt;scrscriptipt&gt;alert(1)&lt;/scripscriptt&gt;&lt;&quot;</code></p>
+<h4 id="exec1"><a href="#exec1" class="headerlink" title="exec1"></a>exec1</h4><p>提示swp，是vim在不正常退出时保存的文件，默认是隐藏文件。所以我们输入.index.php.swp，下载到了swp文件，对其进行分析，放到linux中使用命令 vim -r .index.php.swp 恢复文件进行代码审计</p>
+<p>而exec 是命令注入，所以参考DVWA 的命令注入，发现它和DVWA中的high级别差不多，所以我们需要找到绕过方式，经谷歌后得到%0a 可以同时执行两个命令，所以，payload如下：<br><a href="http://118.89.167.246:4002/?ip=127.0.0.1%0als" target="_blank" rel="external">http://118.89.167.246:4002/?ip=127.0.0.1%0als</a> 发现了flag.php<br><a href="http://118.89.167.246:4002/?ip=127.0.0.1%0acat%20flag.php" target="_blank" rel="external">http://118.89.167.246:4002/?ip=127.0.0.1%0acat%20flag.php</a> 查看源码得到flag</p>
+<h4 id="exec2"><a href="#exec2" class="headerlink" title="exec2"></a>exec2</h4><p>打开bak备份文件，查看源码，发现要用post方式传ip的值，于是用brupsuite修改http请求头。</p>
+<p>直接用分号分隔ip地址，后面各种ls，cd .. ls在上层目录发现flaaaaaaaaaaaaaaaag.txt</p>
+<p>由于字符限制，不能直接cat出来，于是采用了通配符 cat *.txt</p>
+<h4 id="Brup"><a href="#Brup" class="headerlink" title="Brup"></a>Brup</h4><p>猜测是用管理员的ip去访问这个地址<br>后三位缺失，采用brupsuite枚举。手动添加X-Forwarded-For:伪造ip</p>
+<p>发现payload为197的包返回长度与众不同</p>
+<p>下拉查看源码发现flag</p>
+<h4 id="我们分手了"><a href="#我们分手了" class="headerlink" title="我们分手了"></a>我们分手了</h4><p>查看源码，发现这道题需要构造序列化的payload，并且需要绕过preg_match，改变filename的值为flag13579.php<br>查阅了大量大量超级大量的资料后，发现可以添加%2b让正则匹配停止，原理为+8=8<br>所以payload为：<br>?data=O:%2b8:”just4fun”:1:{s:8:”filename”;s:13:”flag13579.php”;}<br>查看源码，得到flag</p>
+<h4 id="Sql"><a href="#Sql" class="headerlink" title="Sql"></a>Sql</h4><p>用一个判断结合我们自己的ip地址会被插入（由于我们真正的IP已经被插入了，所以我们需要伪造IP），然后利用伪造的IP地址在未被插入之前id=1,插入之后id=2 来成功修改id值。<br>payload如下：<a href="http://118.89.167.246:4001/?id=if((select" target="_blank" rel="external">http://118.89.167.246:4001/?id=if((select</a> ip from logs where ip=’192.168.233.130’ limit 1),1,2)%23<br>同时利用firefox的X-Forwarded-For 伪造我们的ip为192.168.233.130</p>
+<h4 id="一个有故事的人"><a href="#一个有故事的人" class="headerlink" title="一个有故事的人"></a>一个有故事的人</h4><p>构造序列化，修改enter和secret的值。由于是===全等，查阅资料后发现需要利用指针引用，直接将secret的值的指针指向enter的值的位置。<br>?pass=O:8:%22just4fun%22:2:{s:5:%22enter%22;s:3:%22abc%22;s:6:%22secret%22;R:2;}<br>得到flag</p>
+<h4 id="SYB1"><a href="#SYB1" class="headerlink" title="SYB1"></a>SYB1</h4><p>hint:.bak。猜测也是下载文件得到源码，所以url后面加个.bak得到SYB.php.bak<br>分析一下源码，知道我们要输入两个key1,key2，他们会做md5值比较，需要：<br>md5($key1) = md5($key2) &amp;&amp; $key1 != $key2<br>很明显的MD5比较漏洞：以0e开头的MD5之在比较时会被认为相等<br>而在之前把输入的key变成了空格，所以kekeyy 构造一下绕过，又使用了parse_str 所以我们输入的key不加$ 号，payload如下：<br>SYB.php?kekeyy1=QNKCDZO &amp; kekeyy2 = s878926199a</p>
+<h4 id="SYB2"><a href="#SYB2" class="headerlink" title="SYB2"></a>SYB2</h4><p>考验的是DNS服务器的相关知识，教授的wp太长了，直接贴word文档的下载地址吧：<br><a href="http://pan.baidu.com/s/1mi83ITq" target="_blank" rel="external">http://pan.baidu.com/s/1mi83ITq</a></p>
+<h4 id="暴走XSS"><a href="#暴走XSS" class="headerlink" title="暴走XSS"></a>暴走XSS</h4><p>一套XSS小游戏<br>贴上小组学长的writeup：<br><a href="http://lucifaer.com/index.php/archives/16/" target="_blank" rel="external">http://lucifaer.com/index.php/archives/16/</a></p>
+<h3 id="re"><a href="#re" class="headerlink" title="re"></a>re</h3><h4 id="cm1-amp-2"><a href="#cm1-amp-2" class="headerlink" title="cm1&amp;2:"></a>cm1&amp;2:</h4><p><a href="http://2456cc35.wiz03.com/share/s/0AlIMR0YIkmh2tjeP42sDMEN09REuX0URAv_2hOoI11k1l_I" target="_blank" rel="external">http://2456cc35.wiz03.com/share/s/0AlIMR0YIkmh2tjeP42sDMEN09REuX0URAv_2hOoI11k1l_I</a></p>
+<h4 id="迷宫-amp-click："><a href="#迷宫-amp-click：" class="headerlink" title="迷宫&amp;click："></a>迷宫&amp;click：</h4><p><a href="http://2456cc35.wiz03.com/share/s/0AlIMR0YIkmh2tjeP42sDMEN3sBePK39rkE92nI9ul0oqGNC" target="_blank" rel="external">http://2456cc35.wiz03.com/share/s/0AlIMR0YIkmh2tjeP42sDMEN3sBePK39rkE92nI9ul0oqGNC</a></p>
+<h4 id="RE1-amp-RE2"><a href="#RE1-amp-RE2" class="headerlink" title="RE1&amp;RE2:"></a>RE1&amp;RE2:</h4><p><a href="http://pan.baidu.com/s/1hsP6SKG" target="_blank" rel="external">http://pan.baidu.com/s/1hsP6SKG</a></p>
+<h3 id="Pwn"><a href="#Pwn" class="headerlink" title="Pwn"></a>Pwn</h3><h4 id="pwn1"><a href="#pwn1" class="headerlink" title="pwn1:"></a>pwn1:</h4><p><a href="http://2456cc35.wiz03.com/share/s/0AlIMR0YIkmh2tjeP42sDMEN1aWBkX3tLAa42A9w2U1CqXkw" target="_blank" rel="external">http://2456cc35.wiz03.com/share/s/0AlIMR0YIkmh2tjeP42sDMEN1aWBkX3tLAa42A9w2U1CqXkw</a></p>
+<h4 id="pwn2"><a href="#pwn2" class="headerlink" title="pwn2:"></a>pwn2:</h4><p><a href="http://2456cc35.wiz03.com/share/s/0AlIMR0YIkmh2tjeP42sDMEN2Vl0vw0tsQjP2JqVwy1zL_fd" target="_blank" rel="external">http://2456cc35.wiz03.com/share/s/0AlIMR0YIkmh2tjeP42sDMEN2Vl0vw0tsQjP2JqVwy1zL_fd</a></p>
+<h3 id="Misc"><a href="#Misc" class="headerlink" title="Misc"></a>Misc</h3><h4 id="Hooooooop"><a href="#Hooooooop" class="headerlink" title="Hooooooop"></a>Hooooooop</h4><p>音乐响起来的时候有没有暗道一声“卧槽”，hhhhh。前面的音频是正常的，可是后面就会听到断断续续的音，于是Au打开音频文件，在显示频谱的地方看到这样的图案：<br><img src="http://imglf1.nosdn.127.net/img/R3A0c1BwZGtMS0ZYUHNEdzQ2Ym1GelkxOEJiY08vb0tXUDNJOUxaUzJjY0Nnd2YzaUFiN0pnPT0.jpg?imageView&amp;thumbnail=1680x0&amp;quality=96&amp;stripmeta=0&amp;type=jpg" alt=""><br>可能有的盆友会被百度上的ctf题目误导是嘟嘟嘟嘟嘟的摩斯密码，其实不然，结合左右声道的图像，这里是猪圈密码，知道就很简单，不知道就会觉得很难，这也是个人积累的问题，多刷题多刷题多刷题，然后对应解密就好了。</p>
+<p><code>flag:D0g3{ahhhhhhhhh}</code></p>
+<h4 id="a-shhhhhhhh"><a href="#a-shhhhhhhh" class="headerlink" title="a shhhhhhhh~"></a>a shhhhhhhh~</h4><p>题目到手，binwalk跑一下，发现藏了zip，而且压了两张图片在里面，用dd将zip文件分割出来或者直接用16进制编辑器打开手动取出来，再尝试解压，需要解压密码，又根据hint提示了logo.png，猜测明文攻击。题目描述里提到了关键的东西在附近，于是想到回到首页，查看源码，发现了logo.png。<br>这里推荐一下AZPR这个工具，功能比较全面，这里只需将下载下来的logo.png压缩，但是要注意压缩算法。<br>于是打开工具：<br><img src="http://imglf1.nosdn.127.net/img/R3A0c1BwZGtMS0ZYUHNEdzQ2Ym1GN3lxRHNUZm1qUTFCdytYeGlweWYwT2hEUXpqeWdSNVdRPT0.png?imageView&amp;thumbnail=500x0&amp;quality=96&amp;stripmeta=0&amp;type=jpg" alt=""><br>得到压缩密码<code>lalalala</code>，解压出来了一张hidden.jpg。emmmm，jpg啊。stegdetect看一下，可以知道是jphide，然后对应下载工具利用即可。至于原理，有兴趣可以了解一下，不得不说图片里的学问也很多。贴上相关链接：<br><a href="http://www.cnblogs.com/daban/p/5680615.html" target="_blank" rel="external">http://www.cnblogs.com/daban/p/5680615.html</a><br>利用工具解出来一个txt，base64解码两次就是flag。</p>
+<p><code>flag:D0g3{jph1de_4_fun}</code></p>
+<h4 id="The-emoji-system"><a href="#The-emoji-system" class="headerlink" title="The emoji system"></a>The emoji system</h4><p>下载得到一个png文件，一般png文件可以用stegsolve看看，也许有惊喜，这里变换通道发现：<br><img src="http://imglf2.nosdn.127.net/img/R3A0c1BwZGtMS0ZYUHNEdzQ2Ym1GMFUvZ1JUOC9FQUh5ZitCZTgxcnpKeURTUFQ3Y0JIMVF3PT0.png?imageView&amp;thumbnail=500x0&amp;quality=96&amp;stripmeta=0&amp;type=jpg" alt=""><br>得到了个key和LSB提示，这里本来想的是只放一个通道的，结果害怕你们看不到，就直接RGB都放了，这里贴出<a href="http://www.tuicool.com/articles/qINzyum" target="_blank" rel="external">一篇参考文章</a>，于是用key解出来一个文件（本来想把key放到其他地方的，但是想着简单点就一起给了，没想到会被当成flag提交），winhex打开看到IHDR，知道是png图片然后补上头，看到这个二维码是经过处理的，还需要用修复一下。这里有个小坑的地方就是我把右下角的一块反相了【2333333，修复完成，扫码即可。</p>
+<p><code>flag:D0g3{here_1s_the_secret_u_w4nt}</code></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/10/16/D0g3暑期考核write_up/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-aaa" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
