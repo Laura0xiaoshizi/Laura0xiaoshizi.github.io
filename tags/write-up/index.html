@@ -6,22 +6,14 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>file-upload-basic | Jason&#39;s Blog</title>
+  <title>Tag: write_up | Jason&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="文件上传##0x01.文件检测方法 ###1.客户端(javascript检测）   ###2.服务器端检测    MIME类型检测   文件后缀黑名单与白名单验证   目录验证 文件内容检测    二进制头(文件幻数检测)JFIF     FF D8 FF E0 00 10 4A 46 49 46 GIF89a47 49 46 38 39 61   PNG      89 50 4E 47  文">
-<meta property="og:type" content="article">
-<meta property="og:title" content="file-upload-basic">
-<meta property="og:url" content="http://yoursite.com/2017/10/16/file-upload-basic/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Jason&#39;s Blog">
+<meta property="og:url" content="http://yoursite.com/tags/write-up/index.html">
 <meta property="og:site_name" content="Jason&#39;s Blog">
-<meta property="og:description" content="文件上传##0x01.文件检测方法 ###1.客户端(javascript检测）   ###2.服务器端检测    MIME类型检测   文件后缀黑名单与白名单验证   目录验证 文件内容检测    二进制头(文件幻数检测)JFIF     FF D8 FF E0 00 10 4A 46 49 46 GIF89a47 49 46 38 39 61   PNG      89 50 4E 47  文">
-<meta property="og:image" content="http://oxwj17r3u.bkt.clouddn.com/blacklist.jpg">
-<meta property="og:image" content="http://oxwj17r3u.bkt.clouddn.com/cgi.fix_pathinfo.jpg">
-<meta property="og:image" content="http://oxwj17r3u.bkt.clouddn.com/how_to_attack.jpg">
-<meta property="og:updated_time" content="2017-10-16T06:53:00.822Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="file-upload-basic">
-<meta name="twitter:description" content="文件上传##0x01.文件检测方法 ###1.客户端(javascript检测）   ###2.服务器端检测    MIME类型检测   文件后缀黑名单与白名单验证   目录验证 文件内容检测    二进制头(文件幻数检测)JFIF     FF D8 FF E0 00 10 4A 46 49 46 GIF89a47 49 46 38 39 61   PNG      89 50 4E 47  文">
-<meta name="twitter:image" content="http://oxwj17r3u.bkt.clouddn.com/blacklist.jpg">
+<meta name="twitter:title" content="Jason&#39;s Blog">
   
     <link rel="alternative" href="/atom.xml" title="Jason&#39;s Blog" type="application/atom+xml">
   
@@ -154,284 +146,60 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-file-upload-basic" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+            
   
-    <h1 class="article-title" itemprop="name">
-      file-upload-basic
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2017" class="archive-year">2017</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2017/10/18/sql第三题write-up/" class="archive-article-date">
+  	<time datetime="2017-10-17T16:54:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-18</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2017/10/18/sql第三题write-up/">sql第三题write_up</a>
     </h1>
   
 
-        
-        <a href="/2017/10/16/file-upload-basic/" class="archive-article-date">
-  	<time datetime="2017-10-16T06:47:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a><strong>文件上传</strong></h1><p>##0x01.文件检测方法</p>
-<p>###1.客户端(javascript检测）  </p>
-<p>###2.服务器端检测  </p>
-<ul>
-<li>MIME类型检测  </li>
-<li>文件后缀黑名单与白名单验证  </li>
-<li>目录验证</li>
-<li><p>文件内容检测  </p>
-<ul>
-<li>二进制头(文件幻数检测)<pre><code>JFIF     FF D8 FF E0 00 10 4A 46 49 46
-GIF89a47 49 46 38 39 61  
-PNG      89 50 4E 47
-</code></pre></li>
-<li><p>文件相关信息检测<br> 通常用的getimagesize()函数，只需要在幻数基础上加一些文件信息就行了，如下</p>
-<pre><code>GIF89a
-(...some binary data for image...)
-&lt;?php phpinfo(); ?&gt;
-(... skipping the rest of binary data ...)
-</code></pre></li>
-<li>文件加载检测</li>
-</ul>
-</li>
-</ul>
-<p>##0x02.攻击以及绕过方法</p>
-<p>###1.burp绕过前端JavaScript检测</p>
-<p>###2.burp修改http报头content-type类型</p>
-<p>###3.黑名单绕过以及白名单绕过</p>
-<ul>
-<li>文件名大小写  </li>
-<li><p>名单列表绕过</p>
-<blockquote>
-<p><img src="http://oxwj17r3u.bkt.clouddn.com/blacklist.jpg" alt="blacklist"><br><small>黑名单里没有asa或cer之类</small></p>
-</blockquote>
-</li>
-<li><p>特殊文件名绕过</p>
-<blockquote>
-<p>windows中test.asp.或test.asp_是不允许的，会自动去除点和空格等,linux/unix无这种特性。</p>
-</blockquote>
-</li>
-</ul>
-<ul>
-<li>0x00截断绕过</li>
-<li><p>.htaaccess文件攻击</p>
-<blockquote>
-<p>在PHP manual 中提到了下面一段话</p>
-<pre><code>move_uploaded_file section, there is a warning which states
-‘If the destination file already exists, it will be overwritten.’
-</code></pre><p>如果PHP 安全没配置好<br>就可以通过move_uploaded_file 函数把自己写的.htaccess 文件覆盖掉服务器上的<br>这样就能任意定义解析名单了</p>
-<pre><code>&lt;FilesMatch &quot;custom string&quot;&gt;
-SetHandler application/x-httpd-php
-&lt;/FilesMatch&gt;
-</code></pre></blockquote>
-</li>
-<li><p>解析漏洞</p>
-<ul>
-<li><p>Apache解析漏洞</p>
-<ul>
-<li>Apache解析文件名顺序—-从右到左  <ul>
-<li>test.php.abc,解析文件名时从右到左，因.abc不是Apache能识别的文件后缀，所以会将其识别为php文件<br>//* test.jpg/emm.php也会识别为php文件<blockquote>
-<p>测试- 测试了下面这些集成环境，都以它们的最新版本来测试，应该能覆盖所有低版本<br>WampServer2.0 All Version (WampServer2.0i / Apache 2.2.11)&emsp;&emsp;&emsp;&emsp;[Success]<br>WampServer2.1 All Version (WampServer2.1e-x32 / Apache 2.2.17)&emsp;&ensp; [Success]<br>Wamp5 All Version (Wamp5_1.7.4 / Apache 2.2.6) &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;[Success]<br>AppServ 2.4 All Version (AppServ - 2.4.9 / Apache 2.0.59) &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[Success]<br>AppServ 2.5 All Version (AppServ - 2.5.10 / Apache 2.2.8) &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[Success]<br>AppServ 2.6 All Version (AppServ - 2.6.0 / Apache 2.2.8)&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[Success]</p>
-</blockquote>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>IIS解析漏洞</p>
-<ul>
-<li>test.asp/abc</li>
-<li>test.asp;abc</li>
-<li>test.asp/abc.php<blockquote>
-<p>描述- IIS6.0 在解析asp 格式的时候有两个解析漏洞，一个是如果目录名包含”.asp”字符串，<br>那么这个目录下所有的文件都会按照asp 去解析。另一个是只要文件名中含有”.asp;”<br>会优先按asp 来解析<br>IIS7.0/7.5 是对php 解析时有一个类似于Nginx 的解析漏洞，对任意文件名只要在URL<br>后面追加上字符串”/任意文件名.php”就会按照php 的方式去解析(IIS6.0 没测试)<br>测试- 测试了下面这些集成环境，都以它们的最新版本来测试，应该能覆盖所有低版本<br>IIS6.0 (Win2003 SP2 + IIS6.0) [Success]<br>IIS7.0 (Win2008 R1 + IIS7.0) [Success]<br>IIS7.5 (Win2008 R2 + IIS7.5) [Success]</p>
-</blockquote>
-</li>
-</ul>
-</li>
-<li>Nginx解析漏洞<ul>
-<li>test.jpg/abc.php</li>
-<li>test.jpg%00.php</li>
-<li>test.jpg \abc.php<a href="CVE-2013-4547.md">^1</a><blockquote>
-<p>测试- 测试了下面这些环境<br>nginx 0.5.<em> [Success]<br>nginx 0.6.</em> [Success]<br>nginx 0.7 &lt;= 0.7.65 [Success]<br>nginx 0.8 &lt;= 0.8.37 [Success]</p>
-</blockquote>
-</li>
-</ul>
-</li>
-<li>漏洞原理<blockquote>
-<p>从漏洞原理来说总归有4 类web 应用程序解析漏洞</p>
-<ul>
-<li>Apache 的扩展名顺序解析漏洞<br>这个是Apache 自身的漏洞</li>
-<li>IIS 的asp 解析漏洞<br>这个是IIS 自身的漏洞</li>
-<li>Nginx 的%00 解析漏洞<br>这个是Nginx 自身的漏洞</li>
-<li>php-cgi 的默认配置漏洞<br>这类漏洞主要出现在IIS 和Nginx 这类以CGI 形式调用php 的web 应用程序<br>而Apache 通常是以module 的形式去调用php，所以很少出现这个漏洞  <pre><code>Bug #50852 FastCGI Responder&apos;s accept_path_info behavior needs to be optional
-地址: https://bugs.php.net/bug.php?id=50852&amp;edit=1
-</code></pre>这个漏洞由cgi.fix_pathinfo 的值造成的(这更应该是一个特性)<br><img src="http://oxwj17r3u.bkt.clouddn.com/cgi.fix_pathinfo.jpg" alt="cgi.fix_pathinfo"><br>默认值为1，也就是默认开启的</li>
-</ul>
-</blockquote>
-</li>
-</ul>
-</li>
-</ul>
-<p>###4.攻击思路与绕过图<br><img src="http://oxwj17r3u.bkt.clouddn.com/how_to_attack.jpg" alt="to_attack"></p>
-<p>###5.防御思路</p>
-<ol>
-<li>轻量级检测必然能绕过</li>
-<li>检测的重点放在文件内容检测,可以用检测脚本语言特征码的机制</li>
-<li>路径/扩展名检测一定要用白名单,并且注意路径的0x00 截断攻击(把php 更新至最新版本即可，已经修补了这个漏洞了)</li>
-<li>不能有本地文件包含漏洞</li>
-<li>随时注意更新web 应用软件,避免被解析漏洞攻击</li>
-</ol>
-<hr>
+        <div class="article-info info-on-right">
+          
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">write_up</a>
+        		</li>
+      		
+		</ul>
+	</div>
 
-      
+          
 
-      
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
-                  <div class="reward-box">
-                    
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="/alipay.jpg">
-                      <span class="reward-type">支付宝</span>
-                    </div>
-                    
-                    
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="/weixin.jpg">
-                      <span class="reward-type">微信</span>
-                    </div>
-                    
-                  </div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
         </div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
-        </div>
-      </div>
-    </span>
-  </div>
-</div>
-
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/10/16/file-upload-basic/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
-      <div class="clearfix"></div>
-    </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2017/10/18/sql第三题write-up/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          sql第三题write_up
-        
-      </div>
-    </a>
   
   
-    <a href="/2017/10/16/CVE-2013-4547/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">CVE-2013-4547</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-  
-  
+    </div></section>
   
 
-  
-
-  
-
-  
+    
 
 
           </div>
@@ -454,9 +222,9 @@ SetHandler application/x-httpd-php
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: true,
+		isPost: false,
 		isArchive: false,
-		isTag: false,
+		isTag: true,
 		isCategory: false,
 		open_in_new: true,
 		toc_hide_index: true,

