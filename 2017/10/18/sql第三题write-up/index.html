@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/10/18/sql第三题write-up/index.html">
 <meta property="og:site_name" content="Jason&#39;s Blog">
 <meta property="og:description" content="##第三题Write Up&amp;emsp;这次的第三题主要是想练习一下班上同学以下三点知识：   代码审计 sql注入shell的写入 对一句话木马的理解   过滤文件filter.php的代码如下： &amp;lt;?php  function filter($input){     while(preg_match(&amp;apos;/(and|or|union|where|limit|group by|sel">
-<meta property="og:updated_time" content="2017-10-17T16:54:56.180Z">
+<meta property="og:updated_time" content="2017-10-18T10:36:50.775Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="sql第三题write_up">
 <meta name="twitter:description" content="##第三题Write Up&amp;emsp;这次的第三题主要是想练习一下班上同学以下三点知识：   代码审计 sql注入shell的写入 对一句话木马的理解   过滤文件filter.php的代码如下： &amp;lt;?php  function filter($input){     while(preg_match(&amp;apos;/(and|or|union|where|limit|group by|sel">
@@ -204,7 +204,8 @@ function filter_admin($input){
     preg_match(&quot;/^[_0-9a-z]{4,25}$/i&quot;,$input) or die(&quot;&lt;script&gt;alert(\&quot;Emmmmm...Your input is out of range or containing illegal parameter.\&quot;)&lt;/script&gt;&quot;);
 }
 ?&gt;
-</code></pre><p>在filter函数中，敏感字符串和特殊符号分开进行了过滤，先检查敏感字符串再替换特殊符号为空，仔细思考会发现其存在逻辑漏洞，可以在敏感字符串中插入特殊字符绕过敏感字符串检测，过滤特殊字符后变成正常语句，空格过滤可以用%0a、反引号或者\n绕过，然后就可以进行正常的注入爆数据等，爆出管理员账号密码，密码是多次base64加密的密文，python脚本跑一遍就能得到明文。登陆取得一半flag。</p>
+</code></pre><a id="more"></a>
+<p>在filter函数中，敏感字符串和特殊符号分开进行了过滤，先检查敏感字符串再替换特殊符号为空，仔细思考会发现其存在逻辑漏洞，可以在敏感字符串中插入特殊字符绕过敏感字符串检测，过滤特殊字符后变成正常语句，空格过滤可以用%0a、反引号或者\n绕过，然后就可以进行正常的注入爆数据等，爆出管理员账号密码，密码是多次base64加密的密文，python脚本跑一遍就能得到明文。登陆取得一半flag。</p>
 <p>另一半需写入shell在上级目录读文件获得，在这里用正则过滤了“select into outfile”写shell的方式，但是正则写得不对……被大佬用\n和%0a绕过，这里本来是想让大家了解一下利用“terminated by”写shell的方式，在sqlmap目录下有个写shell的payload：</p>
 <pre><code>LIMIT 0,1 INTO OUTFILE &apos;%OUTFILE%&apos; LINES TERMINATED BY 0x%HEXSTRING%--
 </code></pre><p>与前者稍微不同的是，这个是在查询出数据后在数据中插入我们的一句话木马，因此写shell时前面需能正确查询一条或多条数据，具体可看这篇文章：<a href="http://www.cnblogs.com/qing123/p/6771858.html" target="_blank" rel="external">http://www.cnblogs.com/qing123/p/6771858.html</a></p>
@@ -440,17 +441,6 @@ while(1):
 
   
   
-  
-  <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
-<script>
-  var cloudTieConfig = {
-    url: "http://yoursite.com/2017/10/18/sql第三题write-up/", 
-    sourceId: "sql第三题write-up",
-    productKey: "true &#39;http://www.163.com/#/code&#39;",
-    target: "cloud-tie-wrapper"
-  };
-</script>
-<script src="//img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
   
 
   
