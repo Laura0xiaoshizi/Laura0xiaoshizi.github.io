@@ -6,14 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Jason&#39;s Blog</title>
+  <title>Jason&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
+  <meta name="description" content="热身upup考察知识点摩斯电码，听得出来可以直接翻译，但是乐感较差的可以用音频编辑软件打开，例如AU，即可看到明显的分段 FlagD0g3{UUUTUTUUT} #芬奇的日记 链接: https://pan.baidu.com/s/1eSJAWWM 密码: ju3h题目类型：misc考察：图种，二维码反色，base64解密解法丢在binwalk中跑，发现图中还有另一个图，分离出来，二维码反色，扫了">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Jason&#39;s Blog">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+<meta property="og:url" content="http://yoursite.com/2017/11/26/班级对抗赛_MISC_WriteUp/index.html">
 <meta property="og:site_name" content="Jason&#39;s Blog">
+<meta property="og:description" content="热身upup考察知识点摩斯电码，听得出来可以直接翻译，但是乐感较差的可以用音频编辑软件打开，例如AU，即可看到明显的分段 FlagD0g3{UUUTUTUUT} #芬奇的日记 链接: https://pan.baidu.com/s/1eSJAWWM 密码: ju3h题目类型：misc考察：图种，二维码反色，base64解密解法丢在binwalk中跑，发现图中还有另一个图，分离出来，二维码反色，扫了">
+<meta property="og:image" content="http://ovc0f0a85.bkt.clouddn.com/01j4epe30xxn79hqs0vujgbwhr.png">
+<meta property="og:image" content="http://ovc0f0a85.bkt.clouddn.com/a211szfgpkyjsmc887nyxldgkq.png">
+<meta property="og:updated_time" content="2017-11-24T08:23:05.047Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Jason&#39;s Blog">
+<meta name="twitter:description" content="热身upup考察知识点摩斯电码，听得出来可以直接翻译，但是乐感较差的可以用音频编辑软件打开，例如AU，即可看到明显的分段 FlagD0g3{UUUTUTUUT} #芬奇的日记 链接: https://pan.baidu.com/s/1eSJAWWM 密码: ju3h题目类型：misc考察：图种，二维码反色，base64解密解法丢在binwalk中跑，发现图中还有另一个图，分离出来，二维码反色，扫了">
+<meta name="twitter:image" content="http://ovc0f0a85.bkt.clouddn.com/01j4epe30xxn79hqs0vujgbwhr.png">
   
     <link rel="alternative" href="/atom.xml" title="Jason&#39;s Blog" type="application/atom+xml">
   
@@ -150,164 +157,194 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-班级对抗赛_MISC_WriteUp" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="热身upup"><a href="#热身upup" class="headerlink" title="热身upup"></a>热身upup</h1><h2 id="考察知识点"><a href="#考察知识点" class="headerlink" title="考察知识点"></a>考察知识点</h2><p>摩斯电码，听得出来可以直接翻译，但是乐感较差的可以用音频编辑软件打开，例如AU，即可看到明显的分段</p>
+<h2 id="Flag"><a href="#Flag" class="headerlink" title="Flag"></a>Flag</h2><p>D0g3{UUUTUTUUT}</p>
+<p>#芬奇的日记</p>
+<h2 id="链接-https-pan-baidu-com-s-1eSJAWWM-密码-ju3h"><a href="#链接-https-pan-baidu-com-s-1eSJAWWM-密码-ju3h" class="headerlink" title="链接: https://pan.baidu.com/s/1eSJAWWM 密码: ju3h"></a>链接: <a href="https://pan.baidu.com/s/1eSJAWWM" target="_blank" rel="external">https://pan.baidu.com/s/1eSJAWWM</a> 密码: ju3h</h2><h2 id="题目类型：misc"><a href="#题目类型：misc" class="headerlink" title="题目类型：misc"></a>题目类型：misc</h2><h2 id="考察：图种，二维码反色，base64解密解法"><a href="#考察：图种，二维码反色，base64解密解法" class="headerlink" title="考察：图种，二维码反色，base64解密解法"></a>考察：图种，二维码反色，base64解密<strong>解法</strong></h2><p>丢在binwalk中跑，发现图中还有另一个图，分离出来，二维码反色，扫了之后得到字符串，base64解密</p>
+<p>flag：<code>D0g3{Y0u _4re_c0Oi!}</code></p>
+<h1 id="0x04-来自佛的一封信-by-C1em0"><a href="#0x04-来自佛的一封信-by-C1em0" class="headerlink" title="0x04 来自佛的一封信  by C1em0"></a>0x04 来自佛的一封信  by C1em0</h1><ol>
+<li>题目名：《来自佛的一封信》</li>
+<li>考察内容：源码查看习惯，百度能力，base64编码</li>
+<li>payload:在注释中找到密文，百度题目关键字就能在线解密。</li>
+</ol>
+<h1 id="0x05-留图不留种-by-zev3n"><a href="#0x05-留图不留种-by-zev3n" class="headerlink" title="0x05 留图不留种  by zev3n"></a>0x05 留图不留种  by zev3n</h1><ul>
+<li><h3 id="题目地址"><a href="#题目地址" class="headerlink" title="题目地址"></a>题目地址</h3><a href="http://pan.baidu.com/s/1pLNv33H" target="_blank" rel="external">http://pan.baidu.com/s/1pLNv33H</a></li>
+<li><h3 id="题目类型"><a href="#题目类型" class="headerlink" title="题目类型"></a>题目类型</h3>zip伪加密，图种，二维码</li>
+<li><h3 id="考察知识点-1"><a href="#考察知识点-1" class="headerlink" title="考察知识点"></a>考察知识点</h3>1.binwalk或winhex的使用<br>2.图种的解压<br>3.二维码两种定位点的作用<br>4.二维码的纠错功能</li>
+<li><h3 id="解题步骤"><a href="#解题步骤" class="headerlink" title="解题步骤"></a>解题步骤</h3>1.winhex修改标记破解伪加密或者直接拿进Linux系统解压出图种<br>2.binwalk -e分解或者直接修改文件后缀名得到隐藏压缩包<br>3.得到两张不完整的二维码图片<br>4.观察二维码缺失定位点（以及辅助定位点），再观察图片中心有一个定位点样式区域<br>5.复制中心区域到三个角，再拼接上辅助定位点，扫描得到flag</li>
+</ul>
+<h1 id="0x05-RRRSA-by-w1mps"><a href="#0x05-RRRSA-by-w1mps" class="headerlink" title="0x05 RRRSA  by w1mps"></a>0x05 RRRSA  by w1mps</h1><p>rsa.txt<br>n的一个因数比较小，很容易跑出来p和q，求出d就解出来了，为了提示他们暴力跑。。另外一个因数其实也没给很大，不写脚本其实也可以出，比如可以去<a href="http://factordb.com/求解" target="_blank" rel="external">http://factordb.com/求解</a> </p>
+<p>解密脚本：</p>
+<h1 id="coding-utf-8"><a href="#coding-utf-8" class="headerlink" title="coding: utf-8"></a>coding: utf-8</h1><p>  c = [‘231209168460534368’,<br>      ‘653775369641132514’,<br>      ‘572992224772813854’,<br>      ‘24661130601438802’,<br>      ‘207970797586895508’,<br>      ‘7420374200071926’,<br>      ‘220033179808126041’,<br>      ‘690428728542718718’,<br>      ‘522803131162521381’,<br>      ‘108831082199640865’,<br>      ‘209002588024035867’,<br>      ‘690428728542718718’,<br>      ‘86875381817289627’,<br>      ‘86875381817289627’,<br>      ‘86875381817289627’,<br>      ‘576873037271561711’,<br>      ‘185467894761485820’]<br>  n = 696074725189933717<br>  e = 65537</p>
+<h1 id="n很小，猜解其中一个因数很小"><a href="#n很小，猜解其中一个因数很小" class="headerlink" title="n很小，猜解其中一个因数很小"></a>n很小，猜解其中一个因数很小</h1><p>  def pq():<br>      for p in xrange(2, 100):<br>          if (n % p == 0):<br>              return p</p>
+<p>  def fast_mod(b, e, m):<br>      result = 1<br>      while e != 0:<br>          if (e&amp;1) == 1:</p>
+<pre><code>        # ei = 1, then mul
+
+        result = (result * b) % m
+    e &gt;&gt;= 1
+    # b, b^2, b^4, b^8, ... , b^(2^n)
+    b = (b*b) % m
+return result
+</code></pre><p>  def extendedGCD(a, b):<br>      if b == 0:<br>          return (1, 0, a)<br>      x1 = 1<br>      y1 = 0<br>      x2 = 0<br>      y2 = 1<br>      while b != 0:<br>          q = a / b<br>          r = a % b<br>          a = b<br>          b = r<br>          x = x1 - q<em>x2<br>          x1 = x2<br>          x2 = x<br>          y = y1 - q</em>y2<br>          y1 = y2<br>          y2 = y<br>      return(x1, y1, a)</p>
+<p>  def computeD(fn, e):<br>      (x, y, r) = extendedGCD(fn, e)</p>
+<pre><code>#y maybe &lt; 0, so convert it
+if y &lt; 0:
+    return fn + y
+return y
+</code></pre><p>  if <strong>name</strong> == ‘<strong>main</strong>‘:<br>      print ‘n=’ + str(n)<br>      print ‘e=’ + str(e)<br>      p = pq()<br>      q = n / pq()<br>      print ‘p=’+str(p)<br>      print “q=”+str(q)<br>      fn = (q-1)*(p-1)<br>      d = computeD(fn, e)<br>      print ‘d=’ + str(d)<br>      for i in c:<br>          c = int(i)<br>          m1=fast_mod(c,d,n)<br>          print ‘解密:’+str(m1)+”     %s” % ((“%x” % m1).decode(“hex”))</p>
+<p><img src="http://ovc0f0a85.bkt.clouddn.com/01j4epe30xxn79hqs0vujgbwhr.png" alt=""><br><img src="http://ovc0f0a85.bkt.clouddn.com/a211szfgpkyjsmc887nyxldgkq.png" alt=""></p>
+<h1 id="0x06-crypt-by-drac0nids"><a href="#0x06-crypt-by-drac0nids" class="headerlink" title="0x06 crypt  by drac0nids"></a>0x06 crypt  by drac0nids</h1><p>第一关给了一串二位数<br>二位数第一位代表手机键盘对应的位置<br>第二位数字代表第几个字母<br>得到密码为zhimakaimen<br>进入第二关<br>哈夫曼树<br>将叶子位置的节点先ascii转字符<br>然后按照哈夫曼编码排出先后顺序</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢您请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/alipay.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/weixin.jpg">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/11/26/班级对抗赛_MISC_WriteUp/" class="archive-article-date">
-  	<time datetime="2017-11-25T18:00:16.851Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-26</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/11/26/班级对抗赛_MISC_WriteUp/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/11/26/班级对抗赛_Pr_WriteUp/" class="archive-article-date">
-  	<time datetime="2017-11-25T17:59:22.385Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-26</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2017/11/26/班级对抗赛_Pr_WriteUp/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title"></div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
+        
+        
+    </div>
+</aside>
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/11/26/班级对抗赛_Re_WriteUp/" class="archive-article-date">
-  	<time datetime="2017-11-25T17:58:38.792Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-26</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/10/18/sql第三题write-up/" class="archive-article-date">
-  	<time datetime="2017-10-17T16:54:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/10/18/sql第三题write-up/">sql第三题write_up</a>
-    </h1>
+
+
+
+  <!-- UY BEGIN -->
+<div id="uyan_frame"></div>
+<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2146816"></script>
+<!-- UY END -->
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">write_up</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/10/16/文件上传/" class="archive-article-date">
-  	<time datetime="2017-10-16T06:47:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/10/16/文件上传/">文件上传</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">dawn</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
   
-    </div></section>
   
 
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="extend next" rel="next" href="/archives/page/2/">Next &raquo;</a>
-    </nav>
+  
+
+  
+
   
 
 
@@ -331,8 +368,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: true,

